@@ -4,10 +4,21 @@ export const resetStyles = globalCss({
   "*, *::before, *::after": { boxSizing: "border-box" },
   body: {
     margin: "0",
-    fontFamily: "Nunito",
+    fontFamily: "Plus Jakarta Sans",
     fontSize: "$body5",
     WebkitFontSmoothing: "antialiased",
     MozOsxFontSmoothing: "grayscale",
     lineHeight: 1,
   },
+  img: {
+    maxHeight: "100%"
+  },
+  button: {
+    marginTop: 24,
+    border: 0
+  },
+  a: {
+    color: "white",
+    textDecoration: "underline"
+  }
 });

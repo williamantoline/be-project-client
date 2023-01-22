@@ -1,25 +1,27 @@
 import Container from "../../elements/container";
 import { css } from "../../../styles/styles";
 import Input from "../../elements/input";
-const LoginImage = require("../../../assets/login-image.png");
+const RegisterImage = require("../../../assets/register-image.png");
 // import AuthBgDark from "../../../assets/auth-bg-dark.png";
 
 interface Props {};
 
-export default function Login(props: Props) {
+export default function Register(props: Props) {
     return (
         <Container>
             <div className={styles.container()}>
                 <div className={styles.centerBox()}>
                     <div className={styles.leftBox()}>
-                        <img src={LoginImage} alt="" />
+                        <img src={RegisterImage} alt="" />
                     </div>
                     <div className={styles.rightBox()}>
-                        <h1 className={styles.h1()}>Login</h1>
+                        <h1 className={styles.h1()}>Sign Up</h1>
                         <Input label="Username" id="username" type="text" />
+                        <Input label="Email" id="email" type="text" />
                         <Input label="Password" id="password" type="password" />
-                        <button className={styles.button()}>Login</button>
-                        <p>Don't have an account? <a href="/register">Signup</a></p>
+                        <Input label="Confirm Password" id="cpassword" type="password" />
+                        <button className={styles.button()}>Sign Up</button>
+                        <p>Already have an account? <a href="/login">Login</a></p>
                     </div>
                 </div>
             </div>
@@ -49,7 +51,7 @@ const styles = {
         height: "100%"
     }),
     rightBox: css({
-        padding: 48
+        padding: "20px 48px"
     }),
     h1: css({
         marginBottom: 36
