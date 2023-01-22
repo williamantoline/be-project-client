@@ -1,12 +1,15 @@
 import Container from "../../elements/container";
-import Text from "../../elements/text";
+import Header from "../../elements/header";
+import Sidebar from "../../elements/sidebar";
 
 interface Props {};
 
 export default function Home(props: Props) {
     return (
-        <Container>
-            <Text>abc</Text>
+        <Container color="#1F2123">
+            <Header />
+            <Sidebar />
+            
         </Container>
     );
 }

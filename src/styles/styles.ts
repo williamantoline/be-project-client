@@ -8,6 +8,7 @@ const stitches = createStitches({
             primary2: "#fefefe",
             primary3: "#fefefe",
             primary4: "#fefefe",
+            danger: "#D74848",
 
             white0: "#ffffff",
 
