@@ -10,11 +10,14 @@ export const resetStyles = globalCss({
     MozOsxFontSmoothing: "grayscale",
     lineHeight: 1,
   },
+  p: {
+    margin: 0,
+    padding: 0,
+  },
   img: {
     maxHeight: "100%"
   },
   button: {
-    marginTop: 24,
     border: 0
   },
   a: {
