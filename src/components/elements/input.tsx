@@ -4,13 +4,15 @@ interface Props {
     label: string,
     type: string,
     id: string,
+    value: string,
+    onChange: (event: any) => void,
 }
 
 export default function Input(props: Props) {
     return (
     <div className={styles.div()}>
         <label className={styles.label()} htmlFor="">{props.label}</label>
-        <input className={styles.input()} type={props.type} id={props.id} />
+        <input className={styles.input()} type={props.type} id={props.id} value={props.value} onChange={props.onChange} />
     </div>
 )
 }
