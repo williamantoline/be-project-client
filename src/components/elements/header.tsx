@@ -1,10 +1,22 @@
 import { css } from "../../styles/styles";
+import axios from "axios";
 const IcSearch = require("../../assets/ic-search.png");
 
 interface Props {
 }
 
 export default function Header(props: Props) {
+
+    const handleClick = async () => {
+        await axios.post('http://127.0.0.1:3013/auth/revoke')
+        .then((res: any) => {
+            console.log(res);
+        })
+        .catch((err: any) => {
+            console.error(err);
+        })
+    }
+
     return (
     <div className={styles.div()}>
         <div className={styles.left()}>
@@ -17,7 +29,7 @@ export default function Header(props: Props) {
             </div>
         </div>
         <div className={styles.right()}>
-            <button className={styles.logoutButton()}>Logout</button>
+            <button className={styles.logoutButton()} onClick={handleClick}>Logout</button>
         </div>
     </div>
 )

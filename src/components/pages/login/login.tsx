@@ -1,12 +1,45 @@
 import Container from "../../elements/container";
 import { css } from "../../../styles/styles";
-import Input from "../../elements/inputlogin";
+import Input from "../../elements/input";
+import { useCallback, useState } from "react";
+import axios from "axios";
 const LoginImage = require("../../../assets/login-image.png");
-// import AuthBgDark from "../../../assets/auth-bg-dark.png";
 
 interface Props {};
 
+
 export default function Login(props: Props) {
+    const [username, setUsername] = useState("");
+    const handleUsernameChange = useCallback(
+        (event: any) => {
+            setUsername(event.target.value);
+        },
+        [setUsername]
+    );
+
+    const [password, setPassword] = useState("");
+    const handlePasswordChange = useCallback(
+        (event: any) => {
+            setPassword(event.target.value);
+        },
+        [setPassword]
+    );
+
+    const handleClick = async () => {
+        await axios.post(`http://127.0.0.1:3013/auth/login`, {
+            username: username,
+            password: password
+        }, {
+            withCredentials: true,
+        })
+        .then((res: any) => {
+            console.log(res);
+        })
+        .catch((err: any) => {
+            console.error(err);
+        })
+    }
+
     return (
         <Container>
             <div className={styles.container()}>
@@ -17,9 +50,9 @@ export default function Login(props: Props) {
                     <div className={styles.rightBox()}>
                         <div className={styles.upperBox()}>
                             <h1 className={styles.h1()}>Login</h1>
-                            <Input label="Username" id="username" type="text" />
-                            <Input label="Password" id="password" type="password" />
-                            <button className={styles.button()}>Login</button>
+                            <Input label="Username" id="username" type="text" value={username} onChange={handleUsernameChange} />
+                            <Input label="Password" id="password" type="password" value={password} onChange={handlePasswordChange} />
+                            <button className={styles.button()} onClick={handleClick}>Login</button>
                         </div>
                         <div className={styles.lowerBox()}>
                             <p>Don't have an account? <a href="/register" className={styles.href()}>Sign Up</a></p>

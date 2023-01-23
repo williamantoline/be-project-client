@@ -1,19 +1,25 @@
-import { relative } from "path";
 import { css } from "../../styles/styles";
-import Button from "./button";
 import Text from "./text";
 const IcPin = require("../../assets/ic-pin.png");
 
+enum FileType {
+    note = 'note',
+    todo = 'todo'
+}
+
 interface Props {
+    title?: string,
+    content?: string,
+    type?: FileType,
 }
 
 export default function FileCard(props: Props) {
     return (
     <div className={styles.div()}>
         <div className={styles.left()}>
-            <Text color={"#ffffff"} weight={600} size={14}>Feb 03 Meeting Notes</Text>
-            <Text style={{marginTop: 8}} weight={400} size={10}>Lorem ipsum dolor sit amet</Text>
-            <Text style={{marginTop: 24}} color={"#7B7B7B"} size={12}>NOTES</Text>
+            <Text color={"#ffffff"} weight={600} size={14}>{props.title}</Text>
+            <Text style={{marginTop: 8}} weight={400} size={10}>{props.content}</Text>
+            <Text style={{marginTop: 24}} color={"#7B7B7B"} size={12}>{props.type}</Text>
         </div>
         <div className={styles.right()}>
             <img src={IcPin} alt="" />
