@@ -33,6 +33,10 @@ const styles = {
         borderRadius: 6,
         padding: 16,
         marginBottom: 8,
+        "&:hover": {
+            background: "#313135",
+            border: "3px solid white"
+        },
     }),
     left: css({
         width: "90%"
