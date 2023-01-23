@@ -1,6 +1,6 @@
 import Container from "../../elements/container";
 import { css } from "../../../styles/styles";
-import Input from "../../elements/input";
+import Input from "../../elements/inputreg";
 const RegisterImage = require("../../../assets/register-image.png");
 // import AuthBgDark from "../../../assets/auth-bg-dark.png";
 
@@ -15,13 +15,17 @@ export default function Register(props: Props) {
                         <img src={RegisterImage} alt="" />
                     </div>
                     <div className={styles.rightBox()}>
-                        <h1 className={styles.h1()}>Sign Up</h1>
-                        <Input label="Username" id="username" type="text" />
-                        <Input label="Email" id="email" type="text" />
-                        <Input label="Password" id="password" type="password" />
-                        <Input label="Confirm Password" id="cpassword" type="password" />
-                        <button className={styles.button()}>Sign Up</button>
-                        <p>Already have an account? <a href="/login">Login</a></p>
+                        <div className={styles.upperBox()}>
+                            <h1 className={styles.h1()}>Sign Up</h1>
+                            <Input label="Username" id="username" type="text" />
+                            <Input label="Email" id="email" type="text" />
+                            <Input label="Password" id="password" type="password" />
+                            <Input label="Confirm Password" id="cpassword" type="password" />
+                            <button className={styles.button()}>Sign Up</button>
+                        </div>
+                        <div className={styles.lowerBox()}>
+                            <p>Already have an account? <a href="/login" className={styles.href()}>Login</a></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -51,17 +55,46 @@ const styles = {
         height: "100%"
     }),
     rightBox: css({
-        padding: "20px 48px"
+        alignItems: "center",
+        marginLeft: "auto",
+        marginRight: "auto",
+        marginTop: 14,
+        paddingLeft: 0,
+        paddingRight: 0,
+        paddingTop: 0
     }),
     h1: css({
         marginBottom: 36
     }),
     button: css({
         backgroundColor: "#7FFAB7",
-        color: "#000000",
+        color: "white",
+        fontSize: 19,
         width: 240,
-        height: 36,
-        borderRadius: 4,
-        marginBottom: 24
+        height: 45,
+        borderRadius: 7,
+        marginTop: 20,
+        marginBottom: 24,
+        marginLeft: 45,
+        "&:hover": {
+            background: "#800548",
+            fontVariant: "small-caps",
+        },
+    }),
+    upperBox: css({
+
+    }),
+    lowerBox: css({
+        fontSize: 12,
+        marginBottom: 4,
+        marginTop: 32,
+        marginLeft: 71,
+    }),
+    href: css({
+        textShadow: "2px 2px 8px #ffffff",
+        "&:hover": {
+            color: "#d3d0cf",
+            textShadow: "none"
+        },
     })
 }

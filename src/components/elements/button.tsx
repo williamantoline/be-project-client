@@ -5,12 +5,21 @@ interface Props {
   color?: string,
   size?: number,
   children: React.ReactNode,
+  style?: object,
 }
 
 export default function Button(props: Props) {
   const style = {
     color: props.color,
     fontSize: props.size,
+    backgroundColor: props.color,
+    padding: props.size,
+    margin: props.size,
+    width: props.size,
+    border: props.type,
+    borderRadius: props.type,
+    display: props.type,
+    ...props.style,
   }
 
   return (
