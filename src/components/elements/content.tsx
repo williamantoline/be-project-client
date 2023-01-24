@@ -1,8 +1,6 @@
 import { css } from "../../styles/styles";
 import Text from "./text";
 import Button from "./button";
-import Container from "./container";
-import FileCard from "./file-card";
 import {HiOutlineHeart, HiOutlinePencil, HiOutlineTrash} from "react-icons/hi2"
 
 interface Props {

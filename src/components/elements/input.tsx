@@ -34,5 +34,6 @@ const styles = {
         height: 36,
         marginTop: 4,
         marginBottom: 6,
+        outline: "none",
     }),
 }
