@@ -74,7 +74,10 @@ const styles = {
         color: "$white0",
         cursor: "pointer",
         margin: 0,
-        borderRadius: 6
+        borderRadius: 6,
+        "&:hover": {
+            background: "#FF4949",
+        },
     }),
     searchInput: css({
         img: {
@@ -89,6 +92,8 @@ const styles = {
             marginLeft: "8px",
             color: "#7B7B7B",
             fontSize: 16,
+            borderTopStyle: "none",
+            outline: "none",
         },
         padding: "6px 12px",
         display: "flex",
@@ -98,6 +103,9 @@ const styles = {
         width: 320,
         height: 42,
         borderRadius: 6,
-        backgroundColor: "#2D2F30"
+        backgroundColor: "#2D2F30",
+        "&:hover": {
+            background: "#4E5154",
+        },
     })
 }

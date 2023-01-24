@@ -135,7 +135,7 @@ const styles = {
     lowerBox: css({
         fontSize: 12,
         marginBottom: 4,
-        marginTop: 32,
+        marginTop: 10,
         marginLeft: 71,
     }),
     href: css({
