@@ -46,7 +46,7 @@ export default function Content(props: Props) {
     );
 
     const handleSaveNote = () => {
-        setIsEditMode(false);
+        setIsEditMode(true);
         alert("Saved!");
     }
 
@@ -70,7 +70,6 @@ export default function Content(props: Props) {
                         </Flex>
                     </div>
                 </div>
-
                 
                 <div className={styles.subtitle()}>
                     <div className={styles.subtitleItem()}>

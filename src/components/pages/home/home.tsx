@@ -19,7 +19,6 @@ export default function Home(props: Props) {
                     <Content note={notes[0]} type='note' createdAt="2023-01-01" updatedAt="2023-01-01" />
                 </div>
             </Container>
-
         </>
     );
 }
