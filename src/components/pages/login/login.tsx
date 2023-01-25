@@ -3,6 +3,7 @@ import { css } from "../../../styles/styles";
 import Input from "../../elements/input";
 import { useCallback, useState } from "react";
 import axios from "axios";
+const Cookie =  require("js-cookie");
 const LoginImage = require("../../../assets/login-image.png");
 
 interface Props {};
@@ -33,7 +34,7 @@ export default function Login(props: Props) {
             withCredentials: true,
         })
         .then((res: any) => {
-            console.log(res);
+            Cookie.set('token', res.data.token);
         })
         .catch((err: any) => {
             console.error(err);
