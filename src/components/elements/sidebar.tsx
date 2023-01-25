@@ -12,51 +12,48 @@ interface Props {
 export default function Sidebar(props: Props) {
     let iconStyles = { color: "white", fontSize: "1.5em" };
     return (
-    <div className={styles.div()}>
-        <div className={styles.myitems()}>
-            <Text size={16} weight={600}>My Items</Text>
+        <div className={styles.div()}>
+            <div className={styles.myitems()}>
+                <Text size={16} weight={600}>My Items</Text>
+            </div>
+            <div className={styles.button()}>
+                <Button style={{
+                        backgroundColor: "transparent", 
+                        color: "white", 
+                        padding: 4, 
+                        width: 73, 
+                        margin: 3,
+                        border: "1px gray solid", 
+                        borderRadius: 7,
+                        display: "flex", 
+                    }}>
+                    <IoFilterSharp style={iconStyles} />
+                    <span className={styles.buttontext()}>Filter</span> 
+                </Button>
+                <Button style={{
+                        backgroundColor: "transparent", 
+                        color: "white", 
+                        padding: 4, 
+                        width: 68, 
+                        margin: 3,
+                        border: "1px gray solid", 
+                        borderRadius: 7,
+                        display: "flex", 
+                    }}>
+                    <MdSort style={iconStyles} />
+                    <span className={styles.buttontext()}>Sort</span> 
+                </Button>
+            </div>
+            <div className={styles.filecard()}>
+                <Container>
+                    <FileCard />
+                    <FileCard />
+                    <FileCard />
+                    <FileCard />
+                </Container>
+            </div>
         </div>
-        <div className={styles.button()}>
-            <Button style={{
-                backgroundColor: "transparent", 
-                color: "white", 
-                padding: 4, 
-                width: 73, 
-                margin: 3,
-                border: "1px gray solid", 
-                borderRadius: 7,
-                display: "flex", 
-                }}>
-                <IoFilterSharp style={iconStyles} />
-                <span className={styles.buttontext()}>Filter</span> 
-            </Button>
-            <Button style={{
-                backgroundColor: "transparent", 
-                color: "white", 
-                padding: 4, 
-                width: 68, 
-                margin: 3,
-                border: "1px gray solid", 
-                borderRadius: 7,
-                display: "flex", 
-                }}>
-                <MdSort style={iconStyles} />
-                <span className={styles.buttontext()}>Sort</span> 
-            </Button>
-        </div>
-        <div className={styles.filecard()}>
-            <Container>
-                <FileCard></FileCard>
-                <FileCard></FileCard>
-                <FileCard></FileCard>
-                <FileCard></FileCard>
-            </Container>
-        </div>
-        
-        
-        
-    </div>
-)
+    )
 }
 
 const styles = {

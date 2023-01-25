@@ -6,7 +6,7 @@ interface Props {
   isHyperlink?: boolean,
   size?: number,
   href?: string,
-  children: React.ReactNode,
+  children: any,
   style?: object,
 }
 
@@ -17,7 +17,7 @@ export default function Text(props: Props) {
     fontSize: props.size,
     ...props.style,
   }
-  if (props.isHyperlink && props.isHyperlink === true) {
+  if (props.isHyperlink) {
     return (
       <a href={props.href} style={style} className={styles.text()}>
         {props.children}

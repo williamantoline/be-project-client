@@ -1,11 +1,7 @@
 import { css } from "../../styles/styles";
 import Text from "./text";
+import { FileType } from "../../enum";
 const IcPin = require("../../assets/ic-pin.png");
-
-enum FileType {
-    note = 'note',
-    todo = 'todo'
-}
 
 interface Props {
     title?: string,
@@ -34,7 +30,6 @@ const styles = {
         flexDirection: "row",
         width: "100%",
         height: 100,
-        // backgroundColor: "#7B7B7B",
         backgroundColor: "#000000",
         borderRadius: 6,
         padding: 16,

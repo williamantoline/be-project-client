@@ -1,42 +1,70 @@
 import { css } from "../../styles/styles";
 import Text from "./text";
-import Button from "./button";
-import Container from "./container";
-import FileCard from "./file-card";
-import {HiOutlineHeart, HiOutlinePencil, HiOutlineTrash} from "react-icons/hi2"
+import {HiOutlineHeart, HiHeart, HiOutlinePencil, HiOutlineTrash} from "react-icons/hi2"
+import { useState } from "react";
+import ActionIcon from "./action-icon";
+import StatefulIcon from "./stateful-icon";
+import Flex from "./flex";
+import { FlexType } from "../../enum";
+import {Note} from "../../model";
+
 
 interface Props {
+    type: string,
+    createdAt: string,
+    updatedAt: string,
+    note: Note,
 }
 
 export default function Content(props: Props) {
-    let iconStyles = { color: "white", fontSize: "2.5em", backgroundColor: "transparent" };
+    let iconStyles = { color: "white", fontSize: '32px', backgroundColor: "transparent", marginLeft: 8 };
+
+
+    const [isLiked, setIsLiked] = useState(props.note.isLiked);
+    const handleIsLikedClick = () => {
+        setIsLiked(!isLiked);
+        //todo
+    }
+    
+    const handleEdit = () => {
+        console.log("edit button trigerred!"); //todo
+    }
+
+    const handleDelete = () => {
+        console.log("delete button trigerred!"); //todo
+    }
+    
     return (
         <div className={styles.div()}>
             <div className={styles.title()}>
-                <Text size={24} weight={800}>Feb 03 Meeting Notes</Text>
-                <Button style={{
-                    backgroundColor: "transparent",
-                }}>
-                    <HiOutlineHeart style={iconStyles}/>
-                    <HiOutlinePencil style={iconStyles}/>
-                    <HiOutlineTrash style={iconStyles}/>
-                </Button>
+                <Text size={24} weight={800}>{props.note.title}</Text>
+                <Flex type={FlexType.row}>
+                    <StatefulIcon state={isLiked} onClick={handleIsLikedClick} offIcon={HiOutlineHeart} onIcon={HiHeart} styles={iconStyles} />
+                    <ActionIcon icon={HiOutlinePencil} onClick={handleEdit} styles={iconStyles} />
+                    <ActionIcon icon={HiOutlineTrash} onClick={handleDelete} styles={iconStyles} />
+                </Flex>
             </div>
             <div className={styles.subtitle()}>
-                <div className={styles.time()}>
-                    <Text color="#7B7B7B">Notes</Text>
+                <div className={styles.subtitleItem()}>
+                    <Text color="#7B7B7B">{props.type}</Text>
                 </div>
-                <div className={styles.time()}>
-                    <Text color="#7B7B7B">Created Feb 03, 2022</Text>
+                <div className={styles.subtitleItem()}>
+                    <Text color="#7B7B7B" style={{display: "inline"}}>Created
+                        <Text weight={700} style={{display: "inline"}}> {(new Date(props.note.createdAt).toLocaleString())}</Text>
+                    </Text>
                 </div>
-                <div className={styles.time()}>
-                    <Text color="#7B7B7B">Last Updated Feb 06, 2022</Text>
+                <div className={styles.subtitleItem()}>
+                    <Text color="#7B7B7B" style={{display: "inline"}}>Last Updated
+                        <Text weight={700} style={{display: "inline"}}> {(new Date(props.note.updatedAt).toLocaleString())}</Text>
+                    </Text>
                 </div>
             </div>
-            
+            <div className={styles.content()}>
+                {props.note.content}
+            </div>
         </div>
         
-)}
+)}  
 
 const styles = {
     div: css({
@@ -45,16 +73,23 @@ const styles = {
         display: "flex",
         height: "100vh",
         color: "$white0",
-        padding: "84px 24px 28px 24px",
-        cursor: "pointer",
+        padding: "108px 32px 28px 32px",
     }),
     title: css({
-        margin: 16
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginBottom: 12,
     }),
     subtitle: css({
-        margin: 6
+        marginBottom: 36
     }),
-    time: css({
-        margin: 6
-    })
+    subtitleItem: css({
+        marginBottom: 6
+    }),
+    content: css({
+        lineHeight: 1.5,
+        fontSize: 15,
+        fontWeight: 500
+    }),
 }

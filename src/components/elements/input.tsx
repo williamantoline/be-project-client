@@ -11,11 +11,11 @@ interface Props {
 
 export default function Input(props: Props) {
     return (
-    <div className={styles.div()} style={props.styles}>
-        <label className={styles.label()} htmlFor="">{props.label}</label>
-        <input className={styles.input()} type={props.type} id={props.id} value={props.value} onChange={props.onChange} />
-    </div>
-)
+        <div className={styles.div()} style={props.styles}>
+            <label className={styles.label()} htmlFor="">{props.label}</label>
+            <input className={styles.input()} type={props.type} id={props.id} value={props.value} onChange={props.onChange} />
+        </div>
+    )
 }
 
 const styles = {
@@ -34,5 +34,6 @@ const styles = {
         height: 36,
         marginTop: 4,
         marginBottom: 6,
+        padding: "0 12px",
     }),
 }
