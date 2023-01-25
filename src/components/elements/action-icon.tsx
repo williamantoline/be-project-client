@@ -5,11 +5,13 @@ interface Props {
   onClick: () => void,
   icon: IconType,
   styles?: object,
+  isModalToggler?: boolean,
+  modalTarget?: string,
 }
 
 export default function ActionIcon(props: Props) {
   return (
-    <div style={props.styles} onClick={props.onClick} className={styles.actionIcon()}>
+    <div style={props.styles} onClick={props.onClick} className={styles.actionIcon()} data-bs-toggle={props.isModalToggler ? 'modal' : ''} data-bs-target={props.modalTarget}>
       <props.icon />
     </div>
   );
@@ -17,6 +19,6 @@ export default function ActionIcon(props: Props) {
 
 const styles = {
   actionIcon: css({
-    fontWeight: "$regular",
+    cursor: "pointer"
   }),
 }

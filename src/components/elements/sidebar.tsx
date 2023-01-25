@@ -5,8 +5,12 @@ import Container from "./container";
 import FileCard from "./file-card";
 import {IoFilterSharp} from "react-icons/io5";
 import {MdSort} from "react-icons/md";
+import Loader from "./loader";
+import Flex from "./flex";
 
 interface Props {
+    notes: any[],
+    isLoading: boolean,
 }
 
 export default function Sidebar(props: Props) {
@@ -46,10 +50,9 @@ export default function Sidebar(props: Props) {
             </div>
             <div className={styles.filecard()}>
                 <Container>
-                    <FileCard />
-                    <FileCard />
-                    <FileCard />
-                    <FileCard />
+                    {
+                        props.isLoading ? <Flex styles={{marginTop: 24}} justify="center"><Loader /></Flex> : props.notes.map((note: any) => <FileCard note={note} />)
+                    }
                 </Container>
             </div>
         </div>

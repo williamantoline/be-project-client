@@ -1,5 +1,6 @@
 import { css } from "../../styles/styles";
 import axios from "axios";
+import Button from "./button";
 const IcSearch = require("../../assets/ic-search.png");
 
 interface Props {
@@ -29,7 +30,8 @@ export default function Header(props: Props) {
             </div>
         </div>
         <div className={styles.right()}>
-            <button className={styles.logoutButton()} onClick={handleClick}>Logout</button>
+            <Button isMedium onClick={handleClick} style={{backgroundColor: "red", color: "white"}}>Logout</Button>
+            {/* <button className={styles.logoutButton()} onClick={handleClick}>Logout</button> */}
         </div>
     </div>
 )
@@ -67,12 +69,6 @@ const styles = {
     }),
     logoutButton: css({
         backgroundColor: "$danger",
-        width: 120,
-        height: 36,
-        fontSize: 14,
-        fontWeight: 600,
-        color: "$white0",
-        cursor: "pointer",
         margin: 0,
         borderRadius: 6,
         "&:hover": {

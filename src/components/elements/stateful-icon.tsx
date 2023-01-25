@@ -19,5 +19,6 @@ export default function StatefulIcon(props: Props) {
 
 const styles = {
   actionIcon: css({
+    cursor: "pointer",
   }),
 }
