@@ -1,15 +1,29 @@
 import { css } from "../../styles/styles";
 import Text from "./text";
-import Button from "./button";
+import ActionIcon from "./action-icon";
 import List from "./todolist";
 import {RiAddBoxLine} from "react-icons/ri";
 import {HiOutlineTrash} from "react-icons/hi2";
+
 
 interface Props {
 }
 
 export default function ContentToDoList(props: Props) {
-    let iconStyles = { color: "white", fontSize: "30px", backgroundColor: "transparent" };
+    let iconStyles = { color: "white", fontSize: "30px", backgroundColor: "transparent",};
+
+    const addButton = () => {
+        function myFunction(){
+            return(
+                `${<div>
+                    <List></List>
+                </div>}`
+                
+            )
+        }
+        const element: HTMLElement = document.getElementById('todolist') as HTMLElement
+        element.innerHTML += myFunction()
+    }
     return (
         <div className={styles.div()}>
             <div className={styles.subheader()}>
@@ -17,21 +31,12 @@ export default function ContentToDoList(props: Props) {
                     <Text size={24} weight={800}>To Do List</Text>  
                 </div>
                 <div className={styles.icon()}>
-                    <Button style={{backgroundColor: "transparent",}}>
-                        <RiAddBoxLine style={iconStyles} />
-                    </Button>
-                    <Button style={{backgroundColor: "transparent"}}>
-                        <HiOutlineTrash style={iconStyles}/>
-                    </Button>
+                    <ActionIcon icon={RiAddBoxLine} onClick={addButton} styles={iconStyles} />
+                    <ActionIcon icon={HiOutlineTrash} onClick={addButton} styles={iconStyles} />
                 </div>
             </div>
-            <div className={styles.todolist()}>
+            <div className={styles.todolist()} id="todolist">
                 <List></List>
-                <List></List>
-                <List></List>
-                <List></List>
-                <List></List>
-                <List></List> 
             </div>
         </div>
         

@@ -43,7 +43,7 @@ export default function Content(props: Props) {
                 <div className={styles.icons()}>
                     <Flex type={FlexType.row}>
                         <StatefulIcon state={isLiked} onClick={handleIsLikedClick} offIcon={HiOutlineHeart} onIcon={HiHeart} styles={iconStyles} />
-                        <ActionIcon icon={HiOutlinePencil} onClick={handleEdit} styles={iconStyles} />
+                        <ActionIcon icon={HiOutlinePencil} onClick={handleEdit}  styles={iconStyles} />
                         <ActionIcon icon={HiOutlineTrash} onClick={handleDelete} styles={iconStyles} />
                     </Flex>
                 </div>
