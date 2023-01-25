@@ -35,5 +35,6 @@ const styles = {
         marginTop: 4,
         marginBottom: 6,
         padding: "0 12px",
+        outline: "none",
     }),
 }

@@ -8,7 +8,6 @@ import Flex from "./flex";
 import { FlexType } from "../../enum";
 import {Note} from "../../model";
 
-
 interface Props {
     type: string,
     createdAt: string,
@@ -36,14 +35,21 @@ export default function Content(props: Props) {
     
     return (
         <div className={styles.div()}>
-            <div className={styles.title()}>
-                <Text size={24} weight={800}>{props.note.title}</Text>
-                <Flex type={FlexType.row}>
-                    <StatefulIcon state={isLiked} onClick={handleIsLikedClick} offIcon={HiOutlineHeart} onIcon={HiHeart} styles={iconStyles} />
-                    <ActionIcon icon={HiOutlinePencil} onClick={handleEdit} styles={iconStyles} />
-                    <ActionIcon icon={HiOutlineTrash} onClick={handleDelete} styles={iconStyles} />
-                </Flex>
+
+            <div className={styles.subheader()}>
+                <div className={styles.title()}>
+                    <Text size={24} weight={800}>{props.note.title}</Text>
+                </div>
+                <div className={styles.icons()}>
+                    <Flex type={FlexType.row}>
+                        <StatefulIcon state={isLiked} onClick={handleIsLikedClick} offIcon={HiOutlineHeart} onIcon={HiHeart} styles={iconStyles} colorOnHover="red" />
+                        <ActionIcon icon={HiOutlinePencil} onClick={handleEdit} styles={iconStyles} />
+                        <ActionIcon icon={HiOutlineTrash} onClick={handleDelete} styles={iconStyles} />
+                    </Flex>
+                </div>
             </div>
+
+            
             <div className={styles.subtitle()}>
                 <div className={styles.subtitleItem()}>
                     <Text color="#7B7B7B">{props.type}</Text>
@@ -59,11 +65,11 @@ export default function Content(props: Props) {
                     </Text>
                 </div>
             </div>
-            <div className={styles.content()}>
+
+            <div className={styles.notes()}>
                 {props.note.content}
             </div>
         </div>
-        
 )}  
 
 const styles = {
@@ -75,11 +81,18 @@ const styles = {
         color: "$white0",
         padding: "108px 32px 28px 32px",
     }),
+    subheader: css({
+        display: "flex",
+        justifyContent: "space-between"
+    }),
     title: css({
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-        marginBottom: 12,
+        marginBottom: 24,
+        alignItems: "center",
+    }),
+    icons: css({
     }),
     subtitle: css({
         marginBottom: 36
@@ -88,6 +101,14 @@ const styles = {
         marginBottom: 6
     }),
     content: css({
+        lineHeight: 1.5,
+        fontSize: 15,
+        fontWeight: 500
+    }),
+    time: css({
+        margin: 6
+    }),
+    notes: css({
         lineHeight: 1.5,
         fontSize: 15,
         fontWeight: 500

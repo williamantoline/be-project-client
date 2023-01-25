@@ -106,7 +106,7 @@ const styles = {
         width: 240,
         height: 45,
         borderRadius: 7,
-        marginTop: 10,
+        marginTop: 23,
         marginBottom: 24,
         marginLeft: 45,
         "&:hover": {
@@ -120,7 +120,7 @@ const styles = {
     lowerBox: css({
         fontSize: 12,
         marginBottom: 4,
-        marginTop: 67,
+        marginTop: 113,
         marginLeft: 71,
     }),
     href: css({

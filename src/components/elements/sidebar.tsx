@@ -77,6 +77,9 @@ const styles = {
     }),
     buttontext: css({
         margin: "auto auto auto 10px",
+        "&:hover": {
+            fontWeight: "bolder",
+        },
     }),
     filecard: css({
 
