@@ -1,6 +1,7 @@
 import { css } from "../../styles/styles";
 import Text from "./text";
-import {MdCircle} from "react-icons/md"
+import {MdCircle} from "react-icons/md";
+import { HiOutlinePencil } from "react-icons/hi2";
 
 interface Props {
     title?: string,
@@ -14,7 +15,8 @@ export default function List(props: Props) {
     <div className={styles.div()}>
         <div className={styles.top()}>
             <MdCircle style={iconStyles}/>
-            <Text style={{marginLeft: 20}}><input type="text" className="inputtext" placeholder="Type here..."/></Text>
+            <Text style={{marginLeft: 20, width: "100%"}}><input type="text" className="inputtext" placeholder="Type here..."/></Text>
+            <HiOutlinePencil />
         </div>
     </div>
 )
@@ -45,6 +47,6 @@ const styles = {
         }
     }),
     inputtext: css({
-
+        width: "100%"
     })
 }
