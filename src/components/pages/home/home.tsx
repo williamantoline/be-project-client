@@ -17,8 +17,8 @@ export default function Home(props: Props) {
                 <Header />
                 <div style={{display: "flex"}}>
                     <Sidebar isLoading={isLoading} notes={notes} />
-                    <Content note={notes[0]} type='note' createdAt="2023-01-01" updatedAt="2023-01-01" />
-                    {/* <ContentToDoList /> */}
+                    {/* <Content note={notes[0]} type='note' createdAt="2023-01-01" updatedAt="2023-01-01" /> */}
+                    <ContentToDoList note={notes[0]} type='NOTES' createdAt="2023-01-01" updatedAt="2023-01-01"/>
                 </div>
             </Container>
         </>
