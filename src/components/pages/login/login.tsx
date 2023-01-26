@@ -113,6 +113,7 @@ const styles = {
             background: "#7f0509",
             fontVariant: "small-caps",
         },
+        cursor: "pointer",
     }),
     upperBox: css({
 
