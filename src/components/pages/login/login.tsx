@@ -66,7 +66,7 @@ export default function Login(props: Props) {
                     <div className={styles.rightBox()}>
                         <div className={styles.upperBox()}>
                             <h1 className={styles.h1()}>Login</h1>
-                            <Input label="Username" id="username" type="text" value={username} onChange={handleUsernameChange} />
+                            <Input label="Email" id="username" type="text" value={username} onChange={handleUsernameChange} />
                             <Input label="Password" id="password" type="password" value={password} onChange={handlePasswordChange} />
                             <button className={styles.button()} onClick={handleClick}>Login</button>
                         </div>
