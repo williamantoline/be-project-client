@@ -1,13 +1,12 @@
 import Container from "../../elements/container";
 import { css } from "../../../styles/styles";
 import Input from "../../elements/input";
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import axios from "axios";
 const Cookie =  require("js-cookie");
 const LoginImage = require("../../../assets/login-image.png");
 
 interface Props {};
-
 
 export default function Login(props: Props) {
     const [username, setUsername] = useState("");
@@ -34,12 +33,28 @@ export default function Login(props: Props) {
             withCredentials: true,
         })
         .then((res: any) => {
+            // console.log(res.data.token);
             Cookie.set('token', res.data.token);
         })
         .catch((err: any) => {
             console.error(err);
         })
-    }
+    };
+
+    React.useEffect(() => {
+        axios.post(`http://127.0.0.1:3013/auth/jwtToken`, { name: 'John Doe' }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': Cookie.get('token'),
+            }
+        })
+        .then((res: any)=>{
+            if(res.data.tokenStatus === true){
+                console.log('Go to Home Page')
+                // Redirect
+            }
+        })
+    }, []);
 
     return (
         <Container>
