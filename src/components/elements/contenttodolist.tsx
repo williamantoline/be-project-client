@@ -118,7 +118,7 @@ const styles = {
         marginLeft: "20px",
     }),
     subtitle: css({
-        marginBottom: 36
+        marginBottom: 12
     }),
     subtitleItem: css({
         marginBottom: 6
