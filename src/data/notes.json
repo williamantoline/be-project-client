@@ -1,0 +1,12 @@
+[
+    {
+        "id": "87c3593a-2715-4d54-b970-551c2446c800",
+        "userId": "97c3593a-2715-4d54-b970-441c2446c800",
+        "title": "Feb 03 Meeting Notes",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet arcu commodo, feugiat ipsum iaculis, pretium lacus. Morbi a metus metus. Suspendisse ut dui a turpis consequat sollicitudin. Maecenas ipsum sem, consequat facilisis ornare eu, tincidunt eget tellus. Proin eu purus pretium, pharetra ipsum sit amet, viverra metus. Ut non pharetra nunc. Pellentesque mollis orci ac risus varius condimentum. Maecenas non vestibulum felis. Vivamus ullamcorper non felis id rutrum. Aenean consequat, justo vitae posuere ultrices, felis sapien porta ex, quis aliquet ligula dolor ut ipsum. Etiam malesuada quam ac neque iaculis vestibulum. Nunc interdum ante blandit libero maximus, a.",
+        "isLiked": true,
+        "isArchived": false,
+        "createdAt": "2023-01-23T15:06:37.000Z",
+        "updatedAt": "2023-01-23T15:06:37.000Z"
+    }
+]

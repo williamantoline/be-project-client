@@ -1,0 +1,18 @@
+[
+    {
+        "id": "87c3593a-2715-4d54-b970-441c2446c83d",
+        "username": "johndoe",
+        "name": "John Doe",
+        "email": "johndoe@gmail.com",
+        "createdAt": "2023-01-22T02:02:02.999999Z",
+        "updatedAt": "2023-01-22T02:02:02.999999Z"
+    },
+    {
+        "id": "87c3593a-2715-4d54-b970-441c2446c83e",
+        "username": "steve",
+        "name": "Steve",
+        "email": "steve@yahoo.com",
+        "createdAt": "2023-01-22T02:02:02.999999Z",
+        "updatedAt": "2023-01-22T02:02:02.999999Z"
+    }
+]
