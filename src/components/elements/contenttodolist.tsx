@@ -3,33 +3,44 @@ import Text from "./text";
 import ActionIcon from "./action-icon";
 import Input from "./input";
 import List from "./todolist";
-import { Note } from "../../model";
 import {RiAddBoxLine} from "react-icons/ri";
 import {HiOutlineTrash, HiOutlinePencil} from "react-icons/hi2";
+import React, { useState } from "react";
 
 
 interface Props {
-    type: string,
-    createdAt: string,
-    updatedAt: string,
-    note: Note,
+    todo: any,
 }
 
 export default function ContentToDoList(props: Props) {
     let iconStyles = { color: "white", fontSize: "27px", backgroundColor: "transparent", margin: 8};
     let iconStyles2 = { color: "white", fontSize: "34px", backgroundColor: "transparent", marginLeft: 20};
 
+    const [inputValue, setInputValue] = useState("");
+    const [todos, setTodos] = useState(['a', 'b']);
+
+    const handleInputOnChange = (event: any) => {
+        setInputValue(event.target.value);
+    }
+
+    const handleAddTodo = () => {
+        const newTodos = todos;
+        newTodos.push(inputValue);
+        setInputValue("");
+        setTodos(newTodos);
+    }
+
     const addButton = () => {
-        function myFunction(){
-            return(
-                `${<div>
-                    <List></List>
-                </div>}`
+        // function myFunction(){
+        //     return(
+        //         `${<div>
+        //             <List></List>
+        //         </div>}`
                 
-            )
-        }
-        const element: HTMLElement = document.getElementById('todolist') as HTMLElement
-        element.innerHTML += myFunction()
+        //     )
+        // }
+        // const element: HTMLElement = document.getElementById('todolist') as HTMLElement
+        // element.innerHTML += myFunction()
     }
 
     const blank = () => {
@@ -51,30 +62,33 @@ export default function ContentToDoList(props: Props) {
                     <Text size={19} weight={500} style={{display: "inline"}}>Add todo: </Text>
                 </div>
                 <div className={styles.input()}>
-                    <Input label="" type="text" id="addlist" value="" onChange={blank}/>
+                    <Input label="" type="text" id="addlist" value={inputValue} onChange={handleInputOnChange}/>
                 </div>
                 <div>
-                    <ActionIcon icon={RiAddBoxLine} onClick={addButton} styles={iconStyles2}/>
+                    <ActionIcon icon={RiAddBoxLine} onClick={handleAddTodo} styles={iconStyles2}/>
                 </div>
             </div>
             <div className={styles.subtitle()}>
                 <div className={styles.subtitleItem()}>
-                    <Text color="#7B7B7B">{props.type}</Text>
+                    <Text color="#7B7B7B">TODO</Text>
                 </div>
                 <div className={styles.subtitleItem()}>
                     <Text color="#7B7B7B" style={{display: "inline"}}>Created
-                        <Text weight={700} style={{display: "inline"}}> {(new Date(props.note.createdAt).toLocaleString())}</Text>
+                        <Text weight={700} style={{display: "inline"}}> {(new Date(props.todo.createdAt).toLocaleString())}</Text>
                     </Text>
                 </div>
                 <div className={styles.subtitleItem()}>
                     <Text color="#7B7B7B" style={{display: "inline"}}>Last Updated
-                        <Text weight={700} style={{display: "inline"}}> {(new Date(props.note.updatedAt).toLocaleString())}</Text>
+                        <Text weight={700} style={{display: "inline"}}> {(new Date(props.todo.updatedAt).toLocaleString())}</Text>
                     </Text>
                 </div>
             </div>
 
-            <div className={styles.todolist()} id="todolist">
-                <List></List>
+            <div className={styles.todolist()}>
+                {todos.map((todo: any) => {
+                    return <List content={todo}></List>
+                })}
+                {/* <List></List> */}
             </div>
         </div>
         

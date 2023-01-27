@@ -9,12 +9,17 @@ import Loader from "./loader";
 import Flex from "./flex";
 
 interface Props {
-    notes: any[],
+    files: any[],
     isLoading: boolean,
+    onFileChange: (file: any) => void,
 }
 
 export default function Sidebar(props: Props) {
     let iconStyles = { color: "white", fontSize: "1.5em" };
+
+    const handleFileOnClick = (file: any) => {
+        props.onFileChange(file);
+    }
 
     return (
         <div className={styles.div()}>
@@ -57,7 +62,11 @@ export default function Sidebar(props: Props) {
             <div className={styles.filecard()}>
                 <Container>
                     {
-                        props.isLoading ? <Flex styles={{marginTop: 24}} justify="center"><Loader /></Flex> : props.notes.map((note: any) => <FileCard note={note} />)
+                        props.isLoading 
+                            ? 
+                        <Flex styles={{marginTop: 24}} justify="center"><Loader /></Flex>
+                            : 
+                        props.files.map((file: any) => <FileCard onClick={handleFileOnClick} file={file} />)
                     }
                 </Container>
             </div>

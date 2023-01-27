@@ -3,6 +3,7 @@ import { css } from "../../../styles/styles";
 import Input from "../../elements/input";
 import { useState, useCallback } from "react";
 import axios from "axios";
+import { Navigate } from "react-router-dom";
 const RegisterImage = require("../../../assets/register-image.png");
 
 interface Props {};
@@ -49,6 +50,8 @@ export default function Register(props: Props) {
         })
         .then((res: any) => {
             console.log(res);
+            <Navigate replace to="/login" />
+            window.location.replace("/login");
         })
         .catch((err: any) => {
             console.error(err);

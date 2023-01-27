@@ -1,6 +1,7 @@
 import { css } from "../../styles/styles";
 import axios from "axios";
 import Button from "./button";
+const Cookie =  require("js-cookie");
 const IcSearch = require("../../assets/ic-search.png");
 
 interface Props {
@@ -15,7 +16,8 @@ export default function Header(props: Props) {
         })
         .catch((err: any) => {
             console.error(err);
-        })
+        });
+        Cookie.remove('token', { path: '' });
     }
 
     return (

@@ -16,7 +16,7 @@ export default function List(props: Props) {
     <div className={styles.div()}>
         <div className={styles.top()}>
             <MdCircle style={iconStyles}/>
-            <Text style={{marginLeft: 20, width: "90%"}}><input type="text" className="inputtext" placeholder="Type here..."/></Text>
+            <Text style={{marginLeft: 20, width: "90%"}}><input type="text" className="inputtext" placeholder="Type here..." value={props.content}/></Text>
             <div className={styles.icon()}>
                 <HiOutlinePencil style={iconStyles2} />
                 <HiOutlineTrash style={iconStyles2}/>

@@ -6,15 +6,13 @@ import ActionIcon from "./action-icon";
 import StatefulIcon from "./stateful-icon";
 import Flex from "./flex";
 import { FlexType } from "../../enum";
-import {Note} from "../../model";
 import NoteInput from "./note-input";
 import Modal from "./modal";
+import axios from "axios";
 
 interface Props {
-    type: string,
-    createdAt: string,
-    updatedAt: string,
-    note: Note,
+    note: any,
+    onClick?: () => void,
 }
 
 export default function Content(props: Props) {
@@ -46,8 +44,14 @@ export default function Content(props: Props) {
     );
 
     const handleSaveNote = () => {
-        setIsEditMode(true);
-        alert("Saved!");
+        setIsEditMode(false);
+        axios.put(`http://localhost:3013/api/notes/${props.note.id}`, {
+            title: 'Untitile',
+            content: editedNote,
+        })
+        .then((res: any) => {
+            console.log('sucess');
+        });
     }
 
     const handleDelete = () => {
@@ -56,7 +60,7 @@ export default function Content(props: Props) {
     
     return (
         <>
-            <div className={styles.div()}>
+            <div className={styles.div()} onClick={props.onClick}>
 
                 <div className={styles.subheader()}>
                     <div className={styles.title()}>
@@ -73,7 +77,7 @@ export default function Content(props: Props) {
                 
                 <div className={styles.subtitle()}>
                     <div className={styles.subtitleItem()}>
-                        <Text color="#7B7B7B">{props.type}</Text>
+                        <Text color="#7B7B7B">NOTES</Text>
                     </div>
                     <div className={styles.subtitleItem()}>
                         <Text color="#7B7B7B" style={{display: "inline"}}>Created

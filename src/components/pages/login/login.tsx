@@ -3,6 +3,7 @@ import { css } from "../../../styles/styles";
 import Input from "../../elements/input";
 import React, { useCallback, useState } from "react";
 import axios from "axios";
+import { Navigate } from "react-router-dom";
 const Cookie =  require("js-cookie");
 const LoginImage = require("../../../assets/login-image.png");
 
@@ -33,8 +34,8 @@ export default function Login(props: Props) {
             withCredentials: true,
         })
         .then((res: any) => {
-            // console.log(res.data.token);
             Cookie.set('token', res.data.token);
+            window.location.replace("/");
         })
         .catch((err: any) => {
             console.error(err);
@@ -50,8 +51,8 @@ export default function Login(props: Props) {
         })
         .then((res: any)=>{
             if(res.data.tokenStatus === true){
-                console.log('Go to Home Page')
-                // Redirect
+                console.log('Go to Home Page');
+                <Navigate replace to="/" />
             }
         })
     }, []);
