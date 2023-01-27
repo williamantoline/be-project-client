@@ -10,12 +10,12 @@ const LoginImage = require("../../../assets/login-image.png");
 interface Props {};
 
 export default function Login(props: Props) {
-    const [username, setUsername] = useState("");
-    const handleUsernameChange = useCallback(
+    const [email, setEmail] = useState("");
+    const handleEmailChange = useCallback(
         (event: any) => {
-            setUsername(event.target.value);
+            setEmail(event.target.value);
         },
-        [setUsername]
+        [setEmail]
     );
 
     const [password, setPassword] = useState("");
@@ -28,7 +28,7 @@ export default function Login(props: Props) {
 
     const handleClick = async () => {
         await axios.post(`http://127.0.0.1:3013/auth/login`, {
-            username: username,
+            email: email,
             password: password
         }, {
             withCredentials: true,
@@ -51,8 +51,7 @@ export default function Login(props: Props) {
         })
         .then((res: any)=>{
             if(res.data.tokenStatus === true){
-                console.log('Go to Home Page');
-                <Navigate replace to="/" />
+                window.location.replace("/");
             }
         })
     }, []);
@@ -67,7 +66,7 @@ export default function Login(props: Props) {
                     <div className={styles.rightBox()}>
                         <div className={styles.upperBox()}>
                             <h1 className={styles.h1()}>Login</h1>
-                            <Input label="Email" id="username" type="text" value={username} onChange={handleUsernameChange} />
+                            <Input label="Email" id="email" type="text" value={email} onChange={handleEmailChange} />
                             <Input label="Password" id="password" type="password" value={password} onChange={handlePasswordChange} />
                             <button className={styles.button()} onClick={handleClick}>Login</button>
                         </div>
