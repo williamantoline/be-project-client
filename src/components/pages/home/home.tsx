@@ -3,37 +3,40 @@ import Header from "../../elements/header";
 import Sidebar from "../../elements/sidebar";
 import Content from "../../elements/content";
 import ContentToDoList from "../../elements/contenttodolist";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
 const Cookie = require("js-cookie");
-const notes = require("../../../data/notes.json");
 
 interface Props {};
+
+interface Showing {
+    filableType?: string,
+}
 
 export default function Home(props: Props) {
     const [isLoading, setIsLoading] = useState(true);
     const [files, setFiles] = useState([]);
     const [isShowing, setIsShowing] = useState(false);
-    const [showing, setShowing] = useState({type: 'note'});
+    const showing_: Showing = {};
+    const [showing, setShowing] = useState(showing_);
 
     React.useEffect(() => {
-        axios.post(`http://127.0.0.1:3013/auth/jwtToken`, { name: 'John Doe' }, {
+        axios.post(`http://127.0.0.1:3014/auth/jwtToken`, { name: 'John Doe' }, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': Cookie.get('token'),
             }
         })
         .then((res: any)=>{
-            if(res.data.tokenStatus === false){
-                console.log('Go to Home Page');
-                <Navigate replace to="/login" />
+            if(res.data.tokenStatus !== true){
+                window.location.replace("/login");
             }
         })
     }, []);
 
-    React.useEffect(() => {
-        axios.get(`http://127.0.0.1:3013/api/notes`, {
+    const fetchFiles = async () => {
+        setIsLoading(true);
+        await axios.get(`http://127.0.0.1:3014/api/files`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': Cookie.get('token'),
@@ -42,7 +45,16 @@ export default function Home(props: Props) {
         .then((res: any) => {
             setFiles(res.data.data);
             setIsLoading(false);
-        })
+        });
+    };
+
+    const fresh = (withShowing = false) => {
+        fetchFiles();
+        if (withShowing) setIsShowing(false);
+    }
+
+    useEffect(() => {
+        fetchFiles();
     }, []);
 
     const handleOnFileChange = (file: any) => {
@@ -59,15 +71,13 @@ export default function Home(props: Props) {
                 <div style={{display: "flex"}}>
                     <Sidebar onFileChange={handleOnFileChange} isLoading={isLoading} files={files} />
                     {
-                        isShowing && showing ? 
+                        isShowing && showing && showing.filableType ? 
                         (
-                            showing.type === 'note' ? <Content note={showing} /> : <ContentToDoList todo={showing}/>
+                            showing.filableType === 'note' ? <Content onFresh={fresh} file={showing} /> : <ContentToDoList todo={showing}/>
                         )
                         :
                         <></>
                     }
-                    {/* <Content note={files[0]} type='note' /> */}
-                    {/* <ContentToDoList todo={notes[0]} type='TODO' createdAt="2023-01-01" updatedAt="2023-01-01"/> */}
                 </div>
             </Container>
         </>
