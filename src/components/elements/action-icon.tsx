@@ -2,7 +2,7 @@ import { IconType } from "react-icons/lib";
 import { css } from "../../styles/styles";
 
 interface Props {
-  onClick: () => void,
+  onClick?: () => void,
   icon: IconType,
   styles?: object,
   isModalToggler?: boolean,
