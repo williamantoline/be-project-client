@@ -2,6 +2,7 @@ import Container from "../../elements/container";
 import Header from "../../elements/header";
 import Sidebar from "../../elements/sidebar";
 import Content from "../../elements/content";
+import ContentToDoList from "../../elements/contenttodolist";
 import { useState } from "react";
 const notes = require("../../../data/notes.json");
 
@@ -16,7 +17,8 @@ export default function Home(props: Props) {
                 <Header />
                 <div style={{display: "flex"}}>
                     <Sidebar isLoading={isLoading} notes={notes} />
-                    <Content note={notes[0]} type='note' createdAt="2023-01-01" updatedAt="2023-01-01" />
+                    {/* <Content note={notes[0]} type='note' createdAt="2023-01-01" updatedAt="2023-01-01" /> */}
+                    <ContentToDoList note={notes[0]} type='NOTES' createdAt="2023-01-01" updatedAt="2023-01-01"/>
                 </div>
             </Container>
         </>
