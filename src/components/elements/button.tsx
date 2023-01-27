@@ -12,6 +12,10 @@ interface Props {
   isPrimary?: boolean,
   isSecondary?: boolean,
   isDanger?: boolean,
+  isModalButton?: boolean,
+  dataBsDismiss?: string,
+  ariaLabel?: string,
+  className?: string,
   onClick?: () => void,
 }
 
@@ -66,8 +70,13 @@ export default function Button(props: Props) {
     }
   }
 
-  // console.log(cStyles);
-
+  if (props.isModalButton) {
+    return (
+      <button style={props.style} onClick={props.onClick} className={props.className} data-bs-dismiss={props.dataBsDismiss} aria-label={props.ariaLabel}>
+        {props.children}
+      </button>
+    );
+  }
   return (
     <button className={styles.button()} style={cStyles} onClick={props.onClick}>
       {props.children}

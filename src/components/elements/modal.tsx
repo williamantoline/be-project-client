@@ -1,4 +1,5 @@
 import { css } from "../../styles/styles";
+import Button from "./button";
 
 interface Props {
     id: string,
@@ -21,8 +22,8 @@ export default function Modal(props: Props) {
                     {props.body}
                 </div>
                 <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={props.buttonClickHandler}>{props.buttonLabel}</button>
+                    <Button isModalButton style={{cursor: "pointer"}} className="btn btn-secondary" dataBsDismiss="modal">Close</Button>
+                    <Button isModalButton style={{cursor: "pointer"}} className="btn btn-primary" dataBsDismiss="modal" onClick={props.buttonClickHandler}>{props.buttonLabel}</Button>
                 </div>
                 </div>
             </div>
