@@ -1,23 +1,15 @@
 import { css } from "../../styles/styles";
-import axios from "axios";
 import Button from "./button";
 const Cookie =  require("js-cookie");
 const IcSearch = require("../../assets/ic-search.png");
 
-interface Props {
-}
+interface Props {}
 
 export default function Header(props: Props) {
 
     const handleClick = async () => {
-        await axios.post('http://127.0.0.1:3013/auth/revoke')
-        .then((res: any) => {
-            console.log(res);
-        })
-        .catch((err: any) => {
-            console.error(err);
-        });
         Cookie.remove('token', { path: '' });
+        window.location.replace("/login");
     }
 
     return (
@@ -33,7 +25,6 @@ export default function Header(props: Props) {
         </div>
         <div className={styles.right()}>
             <Button isMedium onClick={handleClick} style={{backgroundColor: "red", color: "white"}}>Logout</Button>
-            {/* <button className={styles.logoutButton()} onClick={handleClick}>Logout</button> */}
         </div>
     </div>
 )
