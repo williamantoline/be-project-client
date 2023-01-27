@@ -96,7 +96,7 @@ export default function ContentToDoList(props: Props) {
 
 const styles = {
     div: css({
-        width: "100%",
+        width: "75%",
         flexDirection: "column",
         display: "flex",
         height: "100vh",
