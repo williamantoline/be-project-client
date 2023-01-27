@@ -9,16 +9,20 @@ import { FlexType } from "../../enum";
 import NoteInput from "./note-input";
 import Modal from "./modal";
 import axios from "axios";
+const Cookie = require("js-cookie");
 
 interface Props {
-    note: any,
+    file: any,
     onClick?: () => void,
+    onFresh: (withShowing: boolean) => void,
 }
 
 export default function Content(props: Props) {
     let iconStyles = { color: "white", fontSize: '32px', backgroundColor: "transparent", marginLeft: 8 };
 
-    const [isLiked, setIsLiked] = useState(props.note.isLiked);
+    // const [content, setContent] = useState(props.file.note.content);
+
+    const [isLiked, setIsLiked] = useState(props.file.isLiked);
     const handleIsLikedClick = () => {
         setIsLiked(!isLiked);
         //todo
@@ -35,7 +39,7 @@ export default function Content(props: Props) {
         handleIsEditModeChange();
     }
 
-    const [editedNote, setEditedNote] = useState(props.note.content);
+    const [editedNote, setEditedNote] = useState(props.file.note.content);
     const handleEditedNoteChange = useCallback(
         (event: any) => {
             setEditedNote(event.target.value);
@@ -45,17 +49,31 @@ export default function Content(props: Props) {
 
     const handleSaveNote = () => {
         setIsEditMode(false);
-        axios.put(`http://localhost:3013/api/notes/${props.note.id}`, {
-            title: 'Untitile',
+        axios.put(`http://localhost:3014/api/files/${props.file.id}`, {
+            title: 'Untitled',
             content: editedNote,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': Cookie.get('token'),
+            }
         })
         .then((res: any) => {
             console.log('sucess');
+            props.onFresh(false);
         });
     }
 
     const handleDelete = () => {
-        console.log("delete button trigerred!"); //todo
+        axios.delete(`http://localhost:3014/api/files/${props.file.id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': Cookie.get('token'),
+            }
+        })
+        .then((res: any) => {
+            props.onFresh(true);
+        });
     }
     
     return (
@@ -64,13 +82,13 @@ export default function Content(props: Props) {
 
                 <div className={styles.subheader()}>
                     <div className={styles.title()}>
-                        <Text size={24} weight={800}>{props.note.title}</Text>
+                        <Text size={24} weight={800}>{props.file.title}</Text>
                     </div>
                     <div className={styles.icons()}>
                         <Flex type={FlexType.row}>
                             <StatefulIcon state={isLiked} onClick={handleIsLikedClick} offIcon={HiOutlineHeart} onIcon={HiHeart} styles={iconStyles} />
                             <ActionIcon icon={HiOutlinePencil} onClick={handleEdit} styles={iconStyles} />
-                            <ActionIcon icon={HiOutlineTrash} onClick={handleDelete} styles={iconStyles} isModalToggler modalTarget="#deleteNoteModal" />
+                            <ActionIcon icon={HiOutlineTrash} styles={iconStyles} isModalToggler modalTarget="#deleteNoteModal" />
                         </Flex>
                     </div>
                 </div>
@@ -81,19 +99,19 @@ export default function Content(props: Props) {
                     </div>
                     <div className={styles.subtitleItem()}>
                         <Text color="#7B7B7B" style={{display: "inline"}}>Created
-                            <Text weight={700} style={{display: "inline"}}> {(new Date(props.note.createdAt).toLocaleString())}</Text>
+                            <Text weight={700} style={{display: "inline"}}> {(new Date(props.file.note.createdAt).toLocaleString())}</Text>
                         </Text>
                     </div>
                     <div className={styles.subtitleItem()}>
                         <Text color="#7B7B7B" style={{display: "inline"}}>Last Updated
-                            <Text weight={700} style={{display: "inline"}}> {(new Date(props.note.updatedAt).toLocaleString())}</Text>
+                            <Text weight={700} style={{display: "inline"}}> {(new Date(props.file.note.updatedAt).toLocaleString())}</Text>
                         </Text>
                     </div>
                 </div>
 
                 <div className={styles.notes()}>
                     {
-                        isEditMode ? <NoteInput state={isEditMode} setState={handleIsEditModeChange} children={editedNote} onChange={handleEditedNoteChange} onSave={handleSaveNote} /> : <Text children={props.note.content} />
+                        isEditMode ? <NoteInput state={isEditMode} setState={handleIsEditModeChange} children={editedNote} onChange={handleEditedNoteChange} onSave={handleSaveNote} /> : <Text children={editedNote} />
                     }
                 </div>
             </div>
@@ -103,7 +121,7 @@ export default function Content(props: Props) {
 
 const styles = {
     div: css({
-        width: "100%",
+        width: "75%",
         flexDirection: "column",
         display: "flex",
         height: "100vh",
