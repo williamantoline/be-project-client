@@ -3,8 +3,8 @@ import Text from "./text";
 import Button from "./button";
 import Container from "./container";
 import FileCard from "./file-card";
-import {IoFilterSharp} from "react-icons/io5";
-import {MdSort} from "react-icons/md";
+// import {IoFilterSharp} from "react-icons/io5";
+// import {MdSort} from "react-icons/md";
 import Loader from "./loader";
 import Flex from "./flex";
 
@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default function Sidebar(props: Props) {
-    let iconStyles = { color: "white", fontSize: "1.5em" };
+    // let iconStyles = { color: "white", fontSize: "1.5em" };
 
     const handleFileOnClick = (file: any) => {
         props.onFileChange(file);
@@ -31,7 +31,7 @@ export default function Sidebar(props: Props) {
                     </Button>
                 </Flex>
             </div>
-            <div className={styles.button()}>
+            {/* <div className={styles.button()}>
                 <Button style={{
                         backgroundColor: "transparent", 
                         color: "white", 
@@ -58,7 +58,7 @@ export default function Sidebar(props: Props) {
                     <MdSort style={iconStyles} />
                     <span className={styles.buttontext()}>Sort</span> 
                 </Button>
-            </div>
+            </div> */}
             <div className={styles.filecard()}>
                 <Container>
                     {
@@ -66,7 +66,9 @@ export default function Sidebar(props: Props) {
                             ? 
                         <Flex styles={{marginTop: 24}} justify="center"><Loader /></Flex>
                             : 
-                        props.files.map((file: any) => <FileCard onClick={handleFileOnClick} file={file} />)
+                        (
+                            props.files.length === 0 ? <Flex styles={{marginTop: 32}}><Text>No Data</Text></Flex> : props.files.map((file: any) => <FileCard onClick={handleFileOnClick} file={file} />)
+                        )
                     }
                 </Container>
             </div>
@@ -79,7 +81,7 @@ const styles = {
         display: "flex",
         flexDirection: "column",
         backgroundColor: "#2C2F30",
-        width: 340,
+        width: "25%",
         height: "100vh",
         color: "$white0",
         padding: "84px 24px 28px 24px",
