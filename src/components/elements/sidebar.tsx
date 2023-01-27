@@ -15,10 +15,16 @@ interface Props {
 
 export default function Sidebar(props: Props) {
     let iconStyles = { color: "white", fontSize: "1.5em" };
+
     return (
         <div className={styles.div()}>
             <div className={styles.myitems()}>
-                <Text size={16} weight={600}>My Items</Text>
+                <Flex justify="space-between">
+                    <Text size={16} weight={600}>My Items</Text>
+                    <Button isSmall>
+                        <Text size={20}>+</Text>
+                    </Button>
+                </Flex>
             </div>
             <div className={styles.button()}>
                 <Button style={{
