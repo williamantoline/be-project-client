@@ -1,7 +1,7 @@
 import { css } from "../../styles/styles";
 import Text from "./text";
 import {HiOutlineHeart, HiHeart, HiOutlinePencil, HiOutlineTrash} from "react-icons/hi2"
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ActionIcon from "./action-icon";
 import StatefulIcon from "./stateful-icon";
 import Flex from "./flex";
@@ -9,23 +9,41 @@ import { FlexType } from "../../enum";
 import NoteInput from "./note-input";
 import Modal from "./modal";
 import axios from "axios";
+import Input from "./input";
 const Cookie = require("js-cookie");
 
 interface Props {
     file: any,
     onClick?: () => void,
     onFresh: (withShowing: boolean) => void,
+    handleIsAddingOnChange: (e: any) => void,
+    isAdding: boolean,
 }
 
 export default function Content(props: Props) {
     let iconStyles = { color: "white", fontSize: '32px', backgroundColor: "transparent", marginLeft: 8 };
 
-    // const [content, setContent] = useState(props.file.note.content);
+    useEffect(() => {
+        setEditedTitle(props.file.title);
+        setEditedNote(props.file.note.content);
+        setIsLiked(props.file.isLiked);
+    }, [props.file])
 
     const [isLiked, setIsLiked] = useState(props.file.isLiked);
     const handleIsLikedClick = () => {
         setIsLiked(!isLiked);
-        //todo
+        axios.patch(`http://localhost:3014/api/files/${props.file.id}/update-isliked`, {
+            isLiked: !isLiked,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': Cookie.get('token'),
+            }
+        })
+        .then((res: any) => {
+            alert(res.data.message);
+            props.onFresh(false);
+        });
     }
 
     const [isEditMode, setIsEditMode] = useState(false);
@@ -35,9 +53,16 @@ export default function Content(props: Props) {
     };
     
     const handleEdit = () => {
-        console.log("edit button trigerred!"); //todo
         handleIsEditModeChange();
     }
+
+    const [editedTitle, setEditedTitle] = useState(props.file.title);
+    const handleEditedTitleChange = useCallback(
+        (event: any) => {
+            setEditedTitle(event.target.value);
+        },
+        [setEditedTitle]
+    );
 
     const [editedNote, setEditedNote] = useState(props.file.note.content);
     const handleEditedNoteChange = useCallback(
@@ -49,8 +74,27 @@ export default function Content(props: Props) {
 
     const handleSaveNote = () => {
         setIsEditMode(false);
+        if (props.file.new) {
+            axios.post(`http://localhost:3014/api/files`, {
+                type: 'note',
+                title: editedTitle,
+                content: editedNote,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': Cookie.get('token'),
+                }
+            })
+            .then((res: any) => {
+                alert(res.data.message);
+                props.onFresh(false);
+                props.handleIsAddingOnChange("note");
+            });
+            return;
+        }
+
         axios.put(`http://localhost:3014/api/files/${props.file.id}`, {
-            title: 'Untitled',
+            title: editedTitle,
             content: editedNote,
         }, {
             headers: {
@@ -59,19 +103,20 @@ export default function Content(props: Props) {
             }
         })
         .then((res: any) => {
-            console.log('sucess');
+            alert(res.data.message);
             props.onFresh(false);
         });
     }
 
-    const handleDelete = () => {
-        axios.delete(`http://localhost:3014/api/files/${props.file.id}`, {
+    const handleDelete = async () => {
+        await axios.delete(`http://localhost:3014/api/files/${props.file.id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': Cookie.get('token'),
             }
         })
         .then((res: any) => {
+            alert(res.data.message);
             props.onFresh(true);
         });
     }
@@ -82,7 +127,9 @@ export default function Content(props: Props) {
 
                 <div className={styles.subheader()}>
                     <div className={styles.title()}>
-                        <Text size={24} weight={800}>{props.file.title}</Text>
+                        {
+                            isEditMode ? <Input label="title" type="text" value={editedTitle} onChange={handleEditedTitleChange} id="title" /> : <Text size={24} weight={800}>{editedTitle}</Text>
+                        }
                     </div>
                     <div className={styles.icons()}>
                         <Flex type={FlexType.row}>
@@ -140,6 +187,7 @@ const styles = {
         alignItems: "center",
     }),
     icons: css({
+        
     }),
     subtitle: css({
         marginBottom: 36

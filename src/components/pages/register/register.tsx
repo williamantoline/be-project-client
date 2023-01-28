@@ -4,6 +4,7 @@ import Input from "../../elements/input";
 import { useState, useCallback } from "react";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
+const { endpoint } = require("../../../config");
 const RegisterImage = require("../../../assets/register-image.png");
 
 interface Props {};
@@ -42,14 +43,13 @@ export default function Register(props: Props) {
     );
 
     const handleButtonClick = async () => {
-        await axios.post(`http://127.0.0.1:3013/auth/register`, {
+        await axios.post(`${endpoint}/auth/register`, {
             name: name,
             username: email,
             email: email,
             password: password,
         })
         .then((res: any) => {
-            console.log(res);
             <Navigate replace to="/login" />
             window.location.replace("/login");
         })

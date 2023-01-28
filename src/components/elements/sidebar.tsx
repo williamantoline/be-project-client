@@ -7,72 +7,71 @@ import FileCard from "./file-card";
 // import {MdSort} from "react-icons/md";
 import Loader from "./loader";
 import Flex from "./flex";
+import { FlexType } from "../../enum";
+import FileCardTemplate from "./file-card-template";
+import Modal from "./modal";
+import AddNoteModal from "./add-note-modal";
+import AddTodoModal from "./add-todo-modal";
 
 interface Props {
     files: any[],
     isLoading: boolean,
+    isAddingNote: boolean,
+    isAddingTodo: boolean,
     onFileChange: (file: any) => void,
+    onAddNote: () => void,
+    onAddTodo: () => void,
+    onFileTemplateOnClick: () => void,
+    onFresh: (e?: any) => void,
 }
 
 export default function Sidebar(props: Props) {
-    // let iconStyles = { color: "white", fontSize: "1.5em" };
-
     const handleFileOnClick = (file: any) => {
         props.onFileChange(file);
     }
 
+    const handleFileTemplateOnClick = () => {
+        props.onFileTemplateOnClick();
+    }
+
     return (
-        <div className={styles.div()}>
-            <div className={styles.myitems()}>
-                <Flex justify="space-between">
-                    <Text size={16} weight={600}>My Items</Text>
-                    <Button isSmall>
-                        <Text size={20}>+</Text>
-                    </Button>
-                </Flex>
-            </div>
-            {/* <div className={styles.button()}>
-                <Button style={{
-                        backgroundColor: "transparent", 
-                        color: "white", 
-                        padding: 4, 
-                        width: 73, 
-                        margin: 3,
-                        border: "1px gray solid", 
-                        borderRadius: 7,
-                        display: "flex", 
-                    }}>
-                    <IoFilterSharp style={iconStyles} />
-                    <span className={styles.buttontext()}>Filter</span> 
-                </Button>
-                <Button style={{
-                        backgroundColor: "transparent", 
-                        color: "white", 
-                        padding: 4, 
-                        width: 68, 
-                        margin: 3,
-                        border: "1px gray solid", 
-                        borderRadius: 7,
-                        display: "flex", 
-                    }}>
-                    <MdSort style={iconStyles} />
-                    <span className={styles.buttontext()}>Sort</span> 
-                </Button>
-            </div> */}
-            <div className={styles.filecard()}>
-                <Container>
-                    {
-                        props.isLoading 
+        <>
+            <div className={styles.div()}>
+                <div className={styles.myitems()}>
+                        <Text size={16} weight={600}>My Items</Text>
+                        <Flex type={FlexType.row} styles={{marginTop: 12}}>
+                            <Button isSmall isModalToggler modalTarget="#addNoteModal"> 
+                                {props.isAddingNote ? 'x' : 'Add Note'}
+                            </Button>
+                            <Button isSmall isModalToggler modalTarget="#addTodoModal" style={{marginLeft: 10}}>
+                                {props.isAddingTodo ? 'x' : 'Add Todo'}
+                            </Button>
+                        </Flex>
+                </div>
+                <div className={styles.filecard()}>
+                    <Container>
+                        {
+                            props.isLoading 
                             ? 
-                        <Flex styles={{marginTop: 24}} justify="center"><Loader /></Flex>
+                            <Flex styles={{marginTop: 2}} justify="center"><Loader /></Flex>
                             : 
-                        (
-                            props.files.length === 0 ? <Flex styles={{marginTop: 32}}><Text>No Data</Text></Flex> : props.files.map((file: any) => <FileCard onClick={handleFileOnClick} file={file} />)
-                        )
-                    }
-                </Container>
+                            (
+                                props.files.length === 0 
+                                ? 
+                                <Flex styles={{marginTop: 32}}><Text>No Data</Text></Flex> 
+                                :
+                                <Flex type={FlexType.column}>
+                                    {props.isAddingNote || props.isAddingTodo ? <FileCardTemplate type={props.isAddingNote ? 'NOTE' : 'TODO'} onClick={handleFileTemplateOnClick} /> : <></>}
+                                    {props.files.map((file: any) => <FileCard onClick={handleFileOnClick} file={file} />)}
+                                </Flex>
+                            )
+                        }
+                    </Container>
+                </div>
             </div>
-        </div>
+            <AddNoteModal id="addNoteModal" title="Add New Note" onFresh={props.onFresh} />
+            <AddTodoModal id="addTodoModal" title="Add New Todo" onFresh={props.onFresh} />
+        </>
     )
 }
 
@@ -84,7 +83,7 @@ const styles = {
         width: "25%",
         height: "100vh",
         color: "$white0",
-        padding: "84px 24px 28px 24px",
+        padding: "84px 24px 0 24px",
         cursor: "pointer",
     }),
     myitems: css({
@@ -102,6 +101,7 @@ const styles = {
         },
     }),
     filecard: css({
-
+        marginTop: 64,
+        overflowX: "scroll",
     })
 }

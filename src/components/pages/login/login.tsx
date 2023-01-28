@@ -3,9 +3,9 @@ import { css } from "../../../styles/styles";
 import Input from "../../elements/input";
 import React, { useCallback, useState } from "react";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
 const Cookie =  require("js-cookie");
 const LoginImage = require("../../../assets/login-image.png");
+const { endpoint } = require("../../../config");
 
 interface Props {};
 
@@ -27,13 +27,14 @@ export default function Login(props: Props) {
     );
 
     const handleClick = async () => {
-        await axios.post(`http://127.0.0.1:3013/auth/login`, {
+        await axios.post(`${endpoint}/auth/login`, {
             email: email,
             password: password
         }, {
             withCredentials: true,
         })
         .then((res: any) => {
+            alert(res.status);
             Cookie.set('token', res.data.token);
             window.location.replace("/");
         })
@@ -43,7 +44,7 @@ export default function Login(props: Props) {
     };
 
     React.useEffect(() => {
-        axios.post(`http://127.0.0.1:3013/auth/jwtToken`, { name: 'John Doe' }, {
+        axios.post(`${endpoint}/auth/jwtToken`, { name: 'John Doe' }, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': Cookie.get('token'),

@@ -1,4 +1,5 @@
 import { css } from "../../styles/styles";
+import StatefulIcon from "./stateful-icon";
 import Text from "./text";
 // import { FileType } from "../../enum";
 // import StatefulIcon from "./stateful-icon";
@@ -13,11 +14,6 @@ interface Props {
 }
 
 export default function FileCard(props: Props) {
-    // const [isLiked, setIsLiked] = useState(props.file.isLiked);
-    // const handleIsLikedClick = () => {
-    //     setIsLiked(!isLiked);
-    // }
-
     const handleClickFile = () => {
         props.onClick(props.file);
     }
@@ -29,9 +25,6 @@ export default function FileCard(props: Props) {
                 <Text style={{marginTop: 8, overflow: "hidden", height: 30, lineHeight: 1.4}} weight={400} size={10}>{props.file.content}</Text>
                 <Text style={{marginTop: 24}} color={"#7B7B7B"} size={11}>{props.file.filableType.toUpperCase()}</Text>
             </div>
-            {/* <div className={styles.right()}>
-                <StatefulIcon state={isLiked} onClick={handleIsLikedClick} offIcon={HiOutlineHeart} onIcon={HiHeart} styles={{width: 28, height: 28}} />
-            </div> */}
         </div>
     )
 }

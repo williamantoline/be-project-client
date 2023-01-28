@@ -15,13 +15,13 @@ export default function Header(props: Props) {
     return (
     <div className={styles.div()}>
         <div className={styles.left()}>
-            <p>Hello, John Doe</p>
+            <p>Hello</p>
         </div>
         <div className={styles.center()}>
-            <div className={styles.searchInput()}>
+            {/* <div className={styles.searchInput()}>
                 <img src={IcSearch} alt="" />
                 <input type="text" placeholder="Find..." />
-            </div>
+            </div> */}
         </div>
         <div className={styles.right()}>
             <Button isMedium onClick={handleClick} style={{backgroundColor: "red", color: "white"}}>Logout</Button>

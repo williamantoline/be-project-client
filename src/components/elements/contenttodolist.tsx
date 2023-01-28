@@ -4,93 +4,223 @@ import ActionIcon from "./action-icon";
 import Input from "./input";
 import List from "./todolist";
 import {RiAddBoxLine} from "react-icons/ri";
-import {HiOutlineTrash, HiOutlinePencil} from "react-icons/hi2";
-import React, { useState } from "react";
+import {HiOutlineTrash, HiOutlinePencil, HiOutlineHeart, HiHeart} from "react-icons/hi2";
+import React, { useCallback, useState } from "react";
+import Button from "./button";
+import axios from "axios";
+import Modal from "./modal";
+import Flex from "./flex";
+import StatefulIcon from "./stateful-icon";
+import { FlexType } from "../../enum";
+const Cookie = require("js-cookie");
 
 
 interface Props {
-    todo: any,
+    file: any,
+    onFresh: (withShowing: boolean) => void,
 }
 
 export default function ContentToDoList(props: Props) {
-    let iconStyles = { color: "white", fontSize: "27px", backgroundColor: "transparent", margin: 8};
-    let iconStyles2 = { color: "white", fontSize: "34px", backgroundColor: "transparent", marginLeft: 20};
+    let iconStyles = { color: "white", fontSize: '32px', backgroundColor: "transparent", marginLeft: 8 };
+
+    const [isLiked, setIsLiked] = useState(props.file.isLiked);
+    const handleIsLikedClick = () => {
+        setIsLiked(!isLiked);
+        axios.patch(`http://localhost:3014/api/files/${props.file.id}/update-isliked`, {
+            isLiked: !isLiked,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': Cookie.get('token'),
+            }
+        })
+        .then((res: any) => {
+            alert(res.data.message);
+            props.onFresh(false);
+        });
+    }
+
+    const [isEditMode, setIsEditMode] = useState(false);
+    const handleIsEditModeChange = () => {
+        setIsEditMode(!isEditMode);
+    };
+
+    const [editedTitle, setEditedTitle] = useState(props.file.title);
+    const handleEditedTitleChange = useCallback(
+        (event: any) => {
+            setEditedTitle(event.target.value);
+        },
+        [setEditedTitle]
+    );
 
     const [inputValue, setInputValue] = useState("");
-    const [todos, setTodos] = useState(['a', 'b']);
+    const [todos, setTodos] = useState(props.file.todo.todoItems);
 
     const handleInputOnChange = (event: any) => {
         setInputValue(event.target.value);
     }
 
-    const handleAddTodo = () => {
-        const newTodos = todos;
-        newTodos.push(inputValue);
-        setInputValue("");
-        setTodos(newTodos);
+    const handleEdit = () => {
+        handleIsEditModeChange();
     }
 
-    const addButton = () => {
-        // function myFunction(){
-        //     return(
-        //         `${<div>
-        //             <List></List>
-        //         </div>}`
-                
-        //     )
-        // }
-        // const element: HTMLElement = document.getElementById('todolist') as HTMLElement
-        // element.innerHTML += myFunction()
+    const handleAddTodo = async () => {
+        await axios.patch(`http://localhost:3014/api/files/${props.file.id}/add-todo-item`, {
+            content: inputValue,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': Cookie.get('token'),
+            }
+        })
+        .then((res: any) => {
+            alert(res.data.message);
+            setInputValue("");
+            setTodos(res.data.data);
+            props.onFresh(false);
+        });
+    }
+    
+    const handleUpdateTitle = () => {
+        setIsEditMode(false);
+        axios.patch(`http://localhost:3014/api/files/${props.file.id}/update-title`, {
+            title: editedTitle,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': Cookie.get('token'),
+            }
+        })
+        .then((res: any) => {
+            alert(res.data.message);
+            setIsEditMode(false);
+            props.onFresh(false);
+        });
     }
 
-    const blank = () => {
-
+    const handleUpdateTodoItem = async (itemId: string, editedContent: string) => {
+        await axios.patch(`http://localhost:3014/api/files/${props.file.id}/${itemId}/edit-todo-item`, {
+            content: editedContent,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': Cookie.get('token'),
+            }
+        }).then((res: any) => {
+            alert(res.data.message);
+            setTodos(res.data.data);
+            props.onFresh(false);
+        });
     }
+
+    const handleUpdateCheckedTodoItem = async (itemId: string, isChecked: boolean) => {
+        await axios.patch(`http://localhost:3014/api/files/${props.file.id}/${itemId}/edit-todo-item-check`, {
+            isChecked: isChecked,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': Cookie.get('token'),
+            }
+        }).then((res: any) => {
+            alert(res.data.message);
+            setTodos(res.data.data);
+            props.onFresh(false);
+        });
+    }
+
+    const handleDeleteTodoItem = async (itemId: string) => {
+        await axios.delete(`http://localhost:3014/api/files/${props.file.id}/${itemId}/delete-todo-item`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': Cookie.get('token'),
+            }
+        }).then((res: any) => {
+            alert(res.data.message);
+            setTodos(res.data.data);
+        });
+    }
+
+
+    const handleDelete = async () => {
+        await axios.delete(`http://localhost:3014/api/files/${props.file.id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': Cookie.get('token'),
+            }
+        })
+        .then((res: any) => {
+            alert(res.data.message);
+            props.onFresh(true);
+        });
+    }
+
     return (
-        <div className={styles.div()}>
-            <div className={styles.subheader()}>
-                <div className={styles.title()}>
-                    <Text size={24} weight={800}>To Do List</Text>
-                    <ActionIcon icon={HiOutlinePencil} onClick={blank} styles={iconStyles}/>
+        <>
+            <div className={styles.div()}>
+                <div className={styles.subheader()}>
+                    <div className={styles.title()}>
+                        {
+                            isEditMode 
+                            ? 
+                            (
+                                <>
+                                    <Flex>
+                                        <Input label="" type="text" value={editedTitle} onChange={handleEditedTitleChange} id="title" /> 
+                                        <Button onClick={handleUpdateTitle} isMedium style={{background: "green", color: "white", float: "right", marginLeft: 12}}>Save</Button>
+                                    </Flex>
+                                </>
+                            )
+                            : 
+                            (
+                                <>
+                                    <Text size={24} weight={800}>{editedTitle}</Text>
+                                    <ActionIcon icon={HiOutlinePencil} onClick={handleEdit} styles={iconStyles}/>
+                                </>
+                            )
+                        }
+                    </div>
+                    <div className={styles.icon()}>
+                        <Flex type={FlexType.row}>
+                            <StatefulIcon state={isLiked} onClick={handleIsLikedClick} offIcon={HiOutlineHeart} onIcon={HiHeart} styles={iconStyles} />
+                            <ActionIcon icon={HiOutlineTrash} styles={iconStyles} isModalToggler modalTarget="#deleteTodoModal" />
+                        </Flex>
+                    </div>
                 </div>
-                <div className={styles.icon()}>
-                    <ActionIcon icon={HiOutlineTrash} onClick={addButton} styles={iconStyles2} />
+                <div className={styles.center()}>
+                    <div>
+                        <Text size={19} weight={500} style={{display: "inline"}}>Add todo: </Text>
+                    </div>
+                    <div className={styles.input()}>
+                        <Input label="" type="text" id="addlist" value={inputValue} onChange={handleInputOnChange}/>
+                    </div>
+                    <div>
+                        <ActionIcon icon={RiAddBoxLine} onClick={handleAddTodo} styles={iconStyles}/>
+                    </div>
                 </div>
-            </div>
-            <div className={styles.center()}>
-                <div>
-                    <Text size={19} weight={500} style={{display: "inline"}}>Add todo: </Text>
+                <div className={styles.subtitle()}>
+                    <div className={styles.subtitleItem()}>
+                        <Text color="#7B7B7B">TODO</Text>
+                    </div>
+                    <div className={styles.subtitleItem()}>
+                        <Text color="#7B7B7B" style={{display: "inline"}}>Created
+                            <Text weight={700} style={{display: "inline"}}> {(new Date(props.file.todo.createdAt).toLocaleString())}</Text>
+                        </Text>
+                    </div>
+                    <div className={styles.subtitleItem()}>
+                        <Text color="#7B7B7B" style={{display: "inline"}}>Last Updated
+                            <Text weight={700} style={{display: "inline"}}> {(new Date(props.file.todo.updatedAt).toLocaleString())}</Text>
+                        </Text>
+                    </div>
                 </div>
-                <div className={styles.input()}>
-                    <Input label="" type="text" id="addlist" value={inputValue} onChange={handleInputOnChange}/>
-                </div>
-                <div>
-                    <ActionIcon icon={RiAddBoxLine} onClick={handleAddTodo} styles={iconStyles2}/>
-                </div>
-            </div>
-            <div className={styles.subtitle()}>
-                <div className={styles.subtitleItem()}>
-                    <Text color="#7B7B7B">TODO</Text>
-                </div>
-                <div className={styles.subtitleItem()}>
-                    <Text color="#7B7B7B" style={{display: "inline"}}>Created
-                        <Text weight={700} style={{display: "inline"}}> {(new Date(props.todo.createdAt).toLocaleString())}</Text>
-                    </Text>
-                </div>
-                <div className={styles.subtitleItem()}>
-                    <Text color="#7B7B7B" style={{display: "inline"}}>Last Updated
-                        <Text weight={700} style={{display: "inline"}}> {(new Date(props.todo.updatedAt).toLocaleString())}</Text>
-                    </Text>
-                </div>
-            </div>
 
-            <div className={styles.todolist()}>
-                {todos.map((todo: any) => {
-                    return <List content={todo}></List>
-                })}
-                {/* <List></List> */}
+                <div className={styles.todolist()}>
+                    {todos.map((todo: any) => {
+                        return <List item={todo} onDelete={handleDeleteTodoItem} onUpdate={handleUpdateTodoItem} onCheckedUpdate={handleUpdateCheckedTodoItem}></List>
+                    })}
+                </div>
             </div>
-        </div>
+            <Modal id="deleteTodoModal" buttonLabel="Delete" buttonClickHandler={handleDelete} title="Delete Todo" body="Are you sure want to delete this todo?" />
+        </>
         
 )}
 
@@ -101,23 +231,20 @@ const styles = {
         display: "flex",
         height: "100vh",
         color: "$white0",
-        padding: "84px 36px 28px 36px",
-        cursor: "pointer",
+        padding: "108px 32px 28px 32px",
     }),
     subheader: css({
-        margin: 16,
-        display: "flex"
+        display: "flex",
+        justifyContent: "space-between"
     }),
     title: css({
-        width: "50%",
         display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginBottom: 24,
         alignItems: "center",
     }),
     icon: css({
-        width: "50%",
-        display: "flex",
-        justifyContent: "flex-end",
-        alignItems: "center",
     }),
     center: css({
         margin: "30px 0",
@@ -138,6 +265,7 @@ const styles = {
         marginBottom: 6
     }),
     todolist: css({
-        
+        height: 360,
+        overflowX: "scroll"
     })
 }

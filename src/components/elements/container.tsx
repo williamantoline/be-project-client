@@ -13,5 +13,7 @@ export default function Container(props: Props) {
 const styles = {
     container: css({
         padding: "0px",
+        height: "100vh",
+        overflow: "hidden"
     }),
 }

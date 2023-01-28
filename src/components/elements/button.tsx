@@ -17,6 +17,8 @@ interface Props {
   ariaLabel?: string,
   className?: string,
   onClick?: () => void,
+  isModalToggler?: boolean,
+  modalTarget?: string,
 }
 
 export default function Button(props: Props) {
@@ -78,7 +80,7 @@ export default function Button(props: Props) {
     );
   }
   return (
-    <button className={styles.button()} style={cStyles} onClick={props.onClick}>
+    <button className={styles.button()} style={cStyles} onClick={props.onClick} data-bs-toggle={props.isModalToggler ? 'modal' : ''} data-bs-target={props.modalTarget}>
       {props.children}
     </button>
   );

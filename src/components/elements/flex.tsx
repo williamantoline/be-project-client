@@ -5,6 +5,7 @@ interface Props {
     styles?: object,
     type?: FlexType,
     justify?: string,
+    alignItems?: string,
     children: any
 }
 
@@ -17,6 +18,9 @@ export default function Flex(props: Props) {
     }
     if (props.justify) {
         cStyles.justifyContent = props.justify;
+    }
+    if (props.alignItems) {
+        cStyles.alignItems = props.alignItems;
     }
     return (
         <div style={cStyles} className={styles.flex()}>
