@@ -46,7 +46,6 @@ export default function Home(props: Props) {
     const [isAddingTodo, setIsAddingTodo] = useState(false);
 
     React.useEffect(() => {
-        console.log("redirect")
         axios.post(`${endpoint}/auth/jwtToken`, { name: 'John Doe' }, {
             headers: {
                 'Content-Type': 'application/json',
