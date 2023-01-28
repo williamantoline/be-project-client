@@ -55,6 +55,13 @@ export default function Register(props: Props) {
         })
         .catch((err: any) => {
             console.error(err);
+            let msg = ''
+            for(let i=0; i<(err.response.data.errors).length; i++){
+                console.log("run")
+                msg += '\n'
+                msg += err.response.data.errors[i].msg
+            }
+            alert(msg)
         });
     }
 

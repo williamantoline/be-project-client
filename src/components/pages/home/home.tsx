@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Modal from "../../elements/modal";
 const { endpoint } = require("../../../config");
+
 const Cookie = require("js-cookie");
 
 interface Props {};
@@ -45,6 +46,7 @@ export default function Home(props: Props) {
     const [isAddingTodo, setIsAddingTodo] = useState(false);
 
     React.useEffect(() => {
+        console.log("redirect")
         axios.post(`${endpoint}/auth/jwtToken`, { name: 'John Doe' }, {
             headers: {
                 'Content-Type': 'application/json',
@@ -52,6 +54,7 @@ export default function Home(props: Props) {
             }
         })
         .then((res: any)=>{
+            console.log("redirect")
             if(res.data.tokenStatus !== true){
                 window.location.replace("/login");
             }
