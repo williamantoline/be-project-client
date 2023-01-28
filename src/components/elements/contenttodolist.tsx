@@ -12,6 +12,7 @@ import Modal from "./modal";
 import Flex from "./flex";
 import StatefulIcon from "./stateful-icon";
 import { FlexType } from "../../enum";
+import { endpoint } from "../../config";
 const Cookie = require("js-cookie");
 
 
@@ -26,7 +27,7 @@ export default function ContentToDoList(props: Props) {
     const [isLiked, setIsLiked] = useState(props.file.isLiked);
     const handleIsLikedClick = () => {
         setIsLiked(!isLiked);
-        axios.patch(`http://localhost:3014/api/files/${props.file.id}/update-isliked`, {
+        axios.patch(`${endpoint}/api/files/${props.file.id}/update-isliked`, {
             isLiked: !isLiked,
         }, {
             headers: {
@@ -65,7 +66,7 @@ export default function ContentToDoList(props: Props) {
     }
 
     const handleAddTodo = async () => {
-        await axios.patch(`http://localhost:3014/api/files/${props.file.id}/add-todo-item`, {
+        await axios.patch(`${endpoint}/api/files/${props.file.id}/add-todo-item`, {
             content: inputValue,
         }, {
             headers: {
@@ -83,7 +84,7 @@ export default function ContentToDoList(props: Props) {
     
     const handleUpdateTitle = () => {
         setIsEditMode(false);
-        axios.patch(`http://localhost:3014/api/files/${props.file.id}/update-title`, {
+        axios.patch(`${endpoint}/api/files/${props.file.id}/update-title`, {
             title: editedTitle,
         }, {
             headers: {
@@ -99,7 +100,7 @@ export default function ContentToDoList(props: Props) {
     }
 
     const handleUpdateTodoItem = async (itemId: string, editedContent: string) => {
-        await axios.patch(`http://localhost:3014/api/files/${props.file.id}/${itemId}/edit-todo-item`, {
+        await axios.patch(`${endpoint}/api/files/${props.file.id}/${itemId}/edit-todo-item`, {
             content: editedContent,
         }, {
             headers: {
@@ -114,7 +115,7 @@ export default function ContentToDoList(props: Props) {
     }
 
     const handleUpdateCheckedTodoItem = async (itemId: string, isChecked: boolean) => {
-        await axios.patch(`http://localhost:3014/api/files/${props.file.id}/${itemId}/edit-todo-item-check`, {
+        await axios.patch(`${endpoint}/api/files/${props.file.id}/${itemId}/edit-todo-item-check`, {
             isChecked: isChecked,
         }, {
             headers: {
@@ -129,7 +130,7 @@ export default function ContentToDoList(props: Props) {
     }
 
     const handleDeleteTodoItem = async (itemId: string) => {
-        await axios.delete(`http://localhost:3014/api/files/${props.file.id}/${itemId}/delete-todo-item`, {
+        await axios.delete(`${endpoint}/api/files/${props.file.id}/${itemId}/delete-todo-item`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': Cookie.get('token'),
@@ -142,7 +143,7 @@ export default function ContentToDoList(props: Props) {
 
 
     const handleDelete = async () => {
-        await axios.delete(`http://localhost:3014/api/files/${props.file.id}`, {
+        await axios.delete(`${endpoint}/api/files/${props.file.id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': Cookie.get('token'),

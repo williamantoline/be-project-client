@@ -10,6 +10,7 @@ import NoteInput from "./note-input";
 import Modal from "./modal";
 import axios from "axios";
 import Input from "./input";
+import { endpoint } from "../../config";
 const Cookie = require("js-cookie");
 
 interface Props {
@@ -32,7 +33,7 @@ export default function Content(props: Props) {
     const [isLiked, setIsLiked] = useState(props.file.isLiked);
     const handleIsLikedClick = () => {
         setIsLiked(!isLiked);
-        axios.patch(`http://localhost:3014/api/files/${props.file.id}/update-isliked`, {
+        axios.patch(`${endpoint}/api/files/${props.file.id}/update-isliked`, {
             isLiked: !isLiked,
         }, {
             headers: {
@@ -75,7 +76,7 @@ export default function Content(props: Props) {
     const handleSaveNote = () => {
         setIsEditMode(false);
         if (props.file.new) {
-            axios.post(`http://localhost:3014/api/files`, {
+            axios.post(`${endpoint}/api/files`, {
                 type: 'note',
                 title: editedTitle,
                 content: editedNote,
@@ -93,7 +94,7 @@ export default function Content(props: Props) {
             return;
         }
 
-        axios.put(`http://localhost:3014/api/files/${props.file.id}`, {
+        axios.put(`${endpoint}/api/files/${props.file.id}`, {
             title: editedTitle,
             content: editedNote,
         }, {
@@ -109,7 +110,7 @@ export default function Content(props: Props) {
     }
 
     const handleDelete = async () => {
-        await axios.delete(`http://localhost:3014/api/files/${props.file.id}`, {
+        await axios.delete(`${endpoint}/api/files/${props.file.id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': Cookie.get('token'),

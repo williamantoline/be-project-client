@@ -3,6 +3,7 @@ import { useState } from "react";
 import { css } from "../../styles/styles";
 import Button from "./button";
 import Input from "./input";
+import { endpoint } from "../../config";
 const Cookie = require("js-cookie");
 
 interface Props {
@@ -18,7 +19,7 @@ export default function AddTodoModal(props: Props) {
     }
 
     const handleAddTodo = () => {
-        axios.post(`http://localhost:3014/api/files`, {
+        axios.post(`${endpoint}/api/files`, {
                 type: 'todo',
                 title: title,
                 content: "",

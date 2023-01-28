@@ -34,12 +34,12 @@ export default function Login(props: Props) {
             withCredentials: true,
         })
         .then((res: any) => {
-            alert(res.status);
             Cookie.set('token', res.data.token);
             window.location.replace("/");
         })
         .catch((err: any) => {
             console.error(err);
+            alert(err.response.data.message);
         })
     };
 

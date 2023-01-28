@@ -50,18 +50,19 @@ export default function Register(props: Props) {
             password: password,
         })
         .then((res: any) => {
+            alert("Registration Successful!");
             <Navigate replace to="/login" />
             window.location.replace("/login");
         })
         .catch((err: any) => {
             console.error(err);
-            let msg = ''
+            let msg = '';
             for(let i=0; i<(err.response.data.errors).length; i++){
-                console.log("run")
-                msg += '\n'
-                msg += err.response.data.errors[i].msg
+                console.log("run");
+                msg += '\n';
+                msg += err.response.data.errors[i].msg;
             }
-            alert(msg)
+            alert(msg);
         });
     }
 
