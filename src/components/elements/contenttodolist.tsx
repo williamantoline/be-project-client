@@ -5,7 +5,7 @@ import Input from "./input";
 import List from "./todolist";
 import {RiAddBoxLine} from "react-icons/ri";
 import {HiOutlineTrash, HiOutlinePencil, HiOutlineHeart, HiHeart} from "react-icons/hi2";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Button from "./button";
 import axios from "axios";
 import Modal from "./modal";
@@ -23,6 +23,11 @@ interface Props {
 
 export default function ContentToDoList(props: Props) {
     let iconStyles = { color: "white", fontSize: '32px', backgroundColor: "transparent", marginLeft: 8 };
+
+    useEffect(() => {
+        setEditedTitle(props.file.title);
+        setIsLiked(props.file.isLiked);
+    }, [props.file])
 
     const [isLiked, setIsLiked] = useState(props.file.isLiked);
     const handleIsLikedClick = () => {
