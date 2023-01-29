@@ -40,7 +40,6 @@ export default function Home(props: Props) {
         new: true,
     };
     const [showing, setShowing] = useState(showing_);
-    const [isAdding, setIsAdding] = useState(false);
     const [isAddingNote, setIsAddingNote] = useState(false);
     const [isAddingTodo, setIsAddingTodo] = useState(false);
 
@@ -88,8 +87,7 @@ export default function Home(props: Props) {
                 'Authorization': Cookie.get('token'),
             }
         })
-        .then((res: any) => {
-            setIsAdding(false);
+        .then(async (res: any) => {
             setShowing(res.data.data);
             setIsShowing(true);
             fresh(false);
@@ -135,7 +133,7 @@ export default function Home(props: Props) {
                     {
                         isShowing && showing && showing.filableType ? 
                         (
-                            showing.filableType === 'note' ? <Content isAdding={isAdding} handleIsAddingOnChange={handleOnFileChange} onFresh={fresh} file={showing} /> : <ContentToDoList onFresh={fresh} file={showing}/>
+                            showing.filableType === 'note' ? <Content onFresh={fresh} file={showing} /> : <ContentToDoList onFresh={fresh} file={showing}/>
                         )
                         :
                         <></>

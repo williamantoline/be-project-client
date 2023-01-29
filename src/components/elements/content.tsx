@@ -17,8 +17,6 @@ interface Props {
     file: any,
     onClick?: () => void,
     onFresh: (withShowing: boolean) => void,
-    handleIsAddingOnChange: (e: any) => void,
-    isAdding: boolean,
 }
 
 export default function Content(props: Props) {
@@ -74,26 +72,6 @@ export default function Content(props: Props) {
     );
 
     const handleSaveNote = () => {
-        setIsEditMode(false);
-        if (props.file.new) {
-            axios.post(`${endpoint}/api/files`, {
-                type: 'note',
-                title: editedTitle,
-                content: editedNote,
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': Cookie.get('token'),
-                }
-            })
-            .then((res: any) => {
-                alert(res.data.message);
-                props.onFresh(false);
-                props.handleIsAddingOnChange("note");
-            });
-            return;
-        }
-
         axios.put(`${endpoint}/api/files/${props.file.id}`, {
             title: editedTitle,
             content: editedNote,
