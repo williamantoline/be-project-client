@@ -27,6 +27,7 @@ export default function ContentToDoList(props: Props) {
     useEffect(() => {
         setEditedTitle(props.file.title);
         setIsLiked(props.file.isLiked);
+        setTodos(props.file.todo.todoItems);
     }, [props.file])
 
     const [isLiked, setIsLiked] = useState(props.file.isLiked);
