@@ -55,7 +55,8 @@ export default function Register(props: Props) {
             window.location.replace("/login");
         })
         .catch((err: any) => {
-            console.error(err);
+            setPassword("");
+            setCpassword("");
             let msg = '';
             for(let i=0; i<(err.response.data.errors).length; i++){
                 msg += '\n';

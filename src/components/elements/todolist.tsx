@@ -12,9 +12,10 @@ interface Props {
     content?: string,
     type?: string,
     item: any,
-    onDelete: (itemId: string) => void,
-    onUpdate: (itemId: string, editedContent: string) => void,
-    onCheckedUpdate: (itemId: string, isChecked: boolean) => void,
+    onChange: (itemId: string) => void,
+    onDelete: () => void,
+    onUpdate: (editedContent: string) => void,
+    onCheckedUpdate: (isChecked: boolean) => void,
 }
 
 export default function List(props: Props) {
@@ -22,7 +23,6 @@ export default function List(props: Props) {
     let inputStyles = {
         width: "100%",
         color: "white",
-        background: "blue",
         outline: "none",
         border: "none",
         height: 30,
@@ -32,10 +32,9 @@ export default function List(props: Props) {
 
     const [isEditMode, setIsEditMode] = useState(false);
     const handleIsEditModeChange = () => {
+        props.onChange(props.item.id);
         setIsEditMode(!isEditMode);
     };
-
-    const [thisId, setThisId] = useState(props.item.id);
 
     const [editedContent, setEditedContent] = useState(props.item.content);
     const handleEditedContentChange = useCallback(
@@ -47,7 +46,7 @@ export default function List(props: Props) {
 
     const [isChecked, setIsChecked] = useState(props.item.isChecked);
     const handleIsCheckedChange = () => {
-        props.onCheckedUpdate(thisId, !isChecked);
+        props.onCheckedUpdate(!isChecked);
         setIsChecked(!isChecked);
     }
 
@@ -57,12 +56,16 @@ export default function List(props: Props) {
     }, [props.item]);
 
     const handleDelete = async () => {
-        props.onDelete(thisId);
+        props.onDelete();
     }
 
     const handleUpdate = async () => {
         setIsEditMode(!isEditMode);
-        props.onUpdate(thisId, editedContent);
+        props.onUpdate(editedContent);
+    }
+
+    const handleChangeActive = () => {
+        props.onChange(props.item.id);
     }
 
     return (
@@ -85,11 +88,11 @@ export default function List(props: Props) {
                             :
                             <ActionIcon icon={HiOutlinePencil} styles={iconStyles} onClick={handleIsEditModeChange} />
                         }
-                        <ActionIcon icon={HiOutlineTrash} styles={iconStyles} isModalToggler modalTarget="#deleteTodoItemModal" />
+                        <ActionIcon onClick={handleChangeActive} icon={HiOutlineTrash} styles={iconStyles} isModalToggler modalTarget="#deleteTodoItemModal" />
                     </div>
                 </div>
             </div>
-            <Modal id="deleteTodoItemModal" buttonLabel="Delete" buttonClickHandler={handleDelete} title="Delete Note" body="Are you sure want to delete this note?" />
+            <Modal styles={{color: "black"}} id="deleteTodoItemModal" buttonLabel="Delete" buttonClickHandler={handleDelete} title="Delete Note" body="Are you sure want to delete this note?" />
         </>
     )
 }
