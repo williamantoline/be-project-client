@@ -56,6 +56,12 @@ export default function ContentToDoList(props: Props) {
 
     const [inputValue, setInputValue] = useState("");
     const [todos, setTodos] = useState(props.file.todo.todoItems);
+    const [activeItem, setActiveItem] = useState("");
+
+    const handleOnChange = (itemId: string) => {
+        setActiveItem(itemId);
+        console.log(itemId);
+    }
 
     const handleInputOnChange = (event: any) => {
         setInputValue(event.target.value);
@@ -99,8 +105,9 @@ export default function ContentToDoList(props: Props) {
         });
     }
 
-    const handleUpdateTodoItem = async (itemId: string, editedContent: string) => {
-        await axios.patch(`${endpoint}/api/files/${props.file.id}/${itemId}/edit-todo-item`, {
+    const handleUpdateTodoItem = async (editedContent: string) => {
+        if (activeItem === '') return;
+        await axios.patch(`${endpoint}/api/files/${props.file.id}/${activeItem}/edit-todo-item`, {
             content: editedContent,
         }, {
             headers: {
@@ -108,14 +115,15 @@ export default function ContentToDoList(props: Props) {
                 'Authorization': Cookie.get('token'),
             }
         }).then((res: any) => {
+            console.log(res.data.data);
             alert(res.data.message);
             setTodos(res.data.data);
-            props.onFresh(false);
         });
     }
 
-    const handleUpdateCheckedTodoItem = async (itemId: string, isChecked: boolean) => {
-        await axios.patch(`${endpoint}/api/files/${props.file.id}/${itemId}/edit-todo-item-check`, {
+    const handleUpdateCheckedTodoItem = async (isChecked: boolean) => {
+        if (activeItem === '') return;
+        await axios.patch(`${endpoint}/api/files/${props.file.id}/${activeItem}/edit-todo-item-check`, {
             isChecked: isChecked,
         }, {
             headers: {
@@ -129,8 +137,9 @@ export default function ContentToDoList(props: Props) {
         });
     }
 
-    const handleDeleteTodoItem = async (itemId: string) => {
-        await axios.delete(`${endpoint}/api/files/${props.file.id}/${itemId}/delete-todo-item`, {
+    const handleDeleteTodoItem = async () => {
+        if (activeItem === '') return;
+        await axios.delete(`${endpoint}/api/files/${props.file.id}/${activeItem}/delete-todo-item`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': Cookie.get('token'),
@@ -138,6 +147,7 @@ export default function ContentToDoList(props: Props) {
         }).then((res: any) => {
             alert(res.data.message);
             setTodos(res.data.data);
+            props.onFresh(false);
         });
     }
 
@@ -216,7 +226,7 @@ export default function ContentToDoList(props: Props) {
 
                 <div className={styles.todolist()}>
                     {todos.map((todo: any) => {
-                        return <List item={todo} onDelete={handleDeleteTodoItem} onUpdate={handleUpdateTodoItem} onCheckedUpdate={handleUpdateCheckedTodoItem}></List>
+                        return <List onChange={handleOnChange} item={todo} onDelete={handleDeleteTodoItem} onUpdate={handleUpdateTodoItem} onCheckedUpdate={handleUpdateCheckedTodoItem}></List>
                     })}
                 </div>
             </div>
