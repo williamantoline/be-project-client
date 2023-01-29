@@ -6,16 +6,20 @@ import { useCallback, useEffect, useState } from "react";
 import Modal from "./modal";
 import Input from "./input";
 import Button from "./button";
+import axios from "axios";
+import { endpoint } from "../../config";
+const Cookie = require("js-cookie");
 
 interface Props {
     title?: string,
     content?: string,
     type?: string,
     item: any,
+    fileId: string,
     onChange: (itemId: string) => void,
     onDelete: () => void,
     onUpdate: (editedContent: string) => void,
-    onCheckedUpdate: (isChecked: boolean) => void,
+    onCheckedUpdate: (data: any) => void,
 }
 
 export default function List(props: Props) {
@@ -45,14 +49,23 @@ export default function List(props: Props) {
     );
 
     const [isChecked, setIsChecked] = useState(props.item.isChecked);
-    const handleIsCheckedChange = () => {
-        props.onCheckedUpdate(!isChecked);
-        setIsChecked(!isChecked);
+    const handleIsCheckedChange = async () => {
+        await axios.patch(`${endpoint}/api/files/${props.fileId}/${props.item.id}/edit-todo-item-check`, {
+            isChecked: !isChecked,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': Cookie.get('token'),
+            }
+        }).then((res: any) => {
+            alert(res.data.message);
+            props.onCheckedUpdate(res.data.data);
+        });
     }
 
     useEffect(() => {
         setEditedContent(props.item.content);
-        setThisId(props.item.id);
+        setIsChecked(props.item.isChecked);
     }, [props.item]);
 
     const handleDelete = async () => {

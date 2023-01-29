@@ -60,7 +60,6 @@ export default function ContentToDoList(props: Props) {
 
     const handleOnChange = (itemId: string) => {
         setActiveItem(itemId);
-        console.log(itemId);
     }
 
     const handleInputOnChange = (event: any) => {
@@ -115,26 +114,16 @@ export default function ContentToDoList(props: Props) {
                 'Authorization': Cookie.get('token'),
             }
         }).then((res: any) => {
-            console.log(res.data.data);
-            alert(res.data.message);
-            setTodos(res.data.data);
-        });
-    }
-
-    const handleUpdateCheckedTodoItem = async (isChecked: boolean) => {
-        if (activeItem === '') return;
-        await axios.patch(`${endpoint}/api/files/${props.file.id}/${activeItem}/edit-todo-item-check`, {
-            isChecked: isChecked,
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': Cookie.get('token'),
-            }
-        }).then((res: any) => {
             alert(res.data.message);
             setTodos(res.data.data);
             props.onFresh(false);
         });
+    }
+
+    const handleUpdateCheckedTodoItem = async (data: any) => {
+        setTodos(data);
+        console.log(data);
+        props.onFresh(false);
     }
 
     const handleDeleteTodoItem = async () => {
@@ -226,7 +215,7 @@ export default function ContentToDoList(props: Props) {
 
                 <div className={styles.todolist()}>
                     {todos.map((todo: any) => {
-                        return <List onChange={handleOnChange} item={todo} onDelete={handleDeleteTodoItem} onUpdate={handleUpdateTodoItem} onCheckedUpdate={handleUpdateCheckedTodoItem}></List>
+                        return <List fileId={props.file.id} onChange={handleOnChange} item={todo} onDelete={handleDeleteTodoItem} onUpdate={handleUpdateTodoItem} onCheckedUpdate={handleUpdateCheckedTodoItem}></List>
                     })}
                 </div>
             </div>
