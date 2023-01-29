@@ -82,6 +82,7 @@ export default function Content(props: Props) {
             }
         })
         .then((res: any) => {
+            setIsEditMode(false);
             alert(res.data.message);
             props.onFresh(false);
         });
