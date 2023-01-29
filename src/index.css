@@ -127,12 +127,14 @@ body {
   .modal-title {
     margin-bottom: 0;
     line-height: var(--bs-modal-title-line-height);
+    color: black;
   }
   
   .modal-body {
     position: relative;
     flex: 1 1 auto;
     padding: var(--bs-modal-padding);
+    color: black;
   }
   
   .modal-footer {

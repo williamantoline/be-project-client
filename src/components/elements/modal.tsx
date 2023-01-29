@@ -7,6 +7,7 @@ interface Props {
     body: string,
     buttonLabel: string,
     buttonClickHandler: () => void,
+    styles?: any,
 }
 
 export default function Modal(props: Props) {
