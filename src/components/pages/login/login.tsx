@@ -38,7 +38,7 @@ export default function Login(props: Props) {
             window.location.replace("/");
         })
         .catch((err: any) => {
-            console.error(err);
+            setPassword("");
             alert(err.response.data.message);
         })
     };
